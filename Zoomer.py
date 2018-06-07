@@ -19,13 +19,11 @@ email                : onoma@in.gr
 # Import the PyQt and QGIS libraries
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5 import QtCore
 from PyQt5.QtWidgets import QAction
 from qgis.core import *
 # Initialize Qt resources from file resources.py
-import resources
 # Import the code for the dialog
-from ZoomerDialog import ZoomerDialog
+from .ZoomerDialog import ZoomerDialog
 
 class Zoomer: 
 
@@ -35,10 +33,11 @@ class Zoomer:
 
   def initGui(self):  
     # Create action that will start plugin configuration
-    self.action = QAction(QIcon(":/plugins/Zoomer/icon.png"), \
+    self.action = QAction(QIcon("icon.png"), \
         "Menu Item", self.iface.mainWindow())
     # connect the action to the run method
-    QObject.connect(self.action, QtCore.pyqtSignal("activated()"), self.run)
+    # QObject.connect(self.action, pyqtSignal("activated()"), self.run)
+    self.action.triggered.connect(self.run)
 
     # Add toolbar button and menu item
     self.iface.addToolBarIcon(self.action)

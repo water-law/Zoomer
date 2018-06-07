@@ -4,4 +4,4 @@ call "C:\Program Files\QGIS 3.0\bin\qt5_env.bat"
 call "C:\Program Files\QGIS 3.0\bin\py3_env.bat"
 
 @echo on
-pyrcc5 -o resources.py resources.qrc
+pyrcc5 -o resources.py resources.qrc && pyuic5 -o Ui_Zoomer.py Ui_Zoomer.ui

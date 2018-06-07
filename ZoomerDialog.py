@@ -17,7 +17,7 @@ email                : onoma@in.gr
  ***************************************************************************/
 """
 from PyQt5 import QtCore, QtWidgets
-from Ui_Zoomer import Ui_Zoomer
+from .Ui_Zoomer import Ui_Zoomer
 # create the dialog for Zoomer
 class ZoomerDialog(QtWidgets.QDialog):
   def __init__(self):

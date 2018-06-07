@@ -27,5 +27,5 @@ def qgisMinimumVersion():
   return "1.0"
 def classFactory(iface): 
   # load Zoomer class from file Zoomer
-  from Zoomer import Zoomer 
+  from .Zoomer import Zoomer
   return Zoomer(iface)
