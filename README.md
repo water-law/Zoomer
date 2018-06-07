@@ -24,7 +24,7 @@ C:\Program Files\QGIS 3.0\bin\python3.exe。
 
 举个例子， 我 QGIS 安装目录为： C:\Program Files\QGIS 3.0， 但是插件目录却在这里
 
-C:\Users\zjp\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins， 可以看到该目录下有一个名为 pluginbuilder3的目录，
+C:\Users\zjp\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins， 可以看到该目录下有一个名为 pluginbuilder3
 
- 这个就是 pluginbuilder3 插件， 将我们的 Zoomer 文件夹拷贝到 pluginbuilder3 同一级的目录即可。
+的目录，这个就是 pluginbuilder3 插件， 将我们的 Zoomer 文件夹拷贝到 pluginbuilder3 同一级的目录即可。
 
