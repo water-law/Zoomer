@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+import os
+import re
+import shutil
+
+PLUGIN_NAME = os.getcwd().split("\\")[-1]
+BASE_DIR = os.getcwd()
+QGIS_PLUGIN_DIR = "C:/Users/zjp/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/"
+TARGET_PLUGIN_DIR = QGIS_PLUGIN_DIR + PLUGIN_NAME
+
+excludes = [
+    ".idea",
+    ".git"
+]
+
+
+def dir_add_end(path):
+    if not path.endswith("/"):
+        return path + "/"
+
+
+with open(os.path.join(BASE_DIR, "metadata.txt"), "r") as f:
+    line = f.readline()
+    while line:
+        if line.strip() != "[general]":
+            line = f.readline()
+        else:
+            name_match = re.findall(r'name=(\w+)*', f.readline().strip())
+            if name_match:
+                PLUGIN_NAME = name_match[0]
+                break
+    f.close()
+
+if os.path.exists(TARGET_PLUGIN_DIR):
+    shutil.rmtree(TARGET_PLUGIN_DIR)
+
+shutil.copytree(os.getcwd(), "{}".format(TARGET_PLUGIN_DIR), False, shutil.ignore_patterns(".git"))
