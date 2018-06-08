@@ -7,6 +7,5 @@ call "C:\Program Files\QGIS 3.0\bin\py3_env.bat"
 ::pyrcc5 -o resources.py resources.qrc && pyuic5 -o Ui_Zoomer.py Ui_Zoomer.ui
 @call:trans
 :trans
-@FOR %%F IN (*.qrc) DO pyrcc5 -o %%~nF.py %%F
-@FOR %%F IN (*.ui) DO pyuic5 -o %%~nF.py %%F
+@FOR %%F IN (*.qrc) DO pyrcc5 -o %%~nF.py %%F && @FOR %%F IN (*.ui) DO pyuic5 -o %%~nF.py %%F
 goto:eof
