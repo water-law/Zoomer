@@ -2,11 +2,15 @@
 import os
 import re
 import shutil
+import subprocess
 
 PLUGIN_NAME = os.getcwd().split("\\")[-1]
 BASE_DIR = os.getcwd()
 QGIS_PLUGIN_DIR = "C:/Users/zjp/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/"
 TARGET_PLUGIN_DIR = QGIS_PLUGIN_DIR + PLUGIN_NAME
+QGIS_EXEC_PATH = "C:/Program Files/QGIS 3.0/bin/qgis-bin.exe"
+source = b''
+command = 'taskkill /F /IM qgis-bin.exe'
 
 excludes = [
     ".idea",
@@ -25,7 +29,7 @@ with open(os.path.join(BASE_DIR, "metadata.txt"), "r") as f:
         if line.strip() != "[general]":
             line = f.readline()
         else:
-            name_match = re.findall(r'name=(\w+)*', f.readline().strip())
+            name_match = re.findall(r'name=(/w+)*', f.readline().strip())
             if name_match:
                 PLUGIN_NAME = name_match[0]
                 break
@@ -35,3 +39,7 @@ if os.path.exists(TARGET_PLUGIN_DIR):
     shutil.rmtree(TARGET_PLUGIN_DIR)
 
 shutil.copytree(os.getcwd(), "{}".format(TARGET_PLUGIN_DIR), False, shutil.ignore_patterns(".git"))
+
+os.system(command)
+p = subprocess.Popen(QGIS_EXEC_PATH, stdin=subprocess.PIPE, stdout=None)
+p.communicate(input=source)

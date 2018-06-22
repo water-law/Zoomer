@@ -19,7 +19,7 @@ email                : onoma@in.gr
 # Import the PyQt and QGIS libraries
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QMessageBox
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 # Import the code for the dialog
@@ -34,8 +34,7 @@ class Zoomer:
 
     def initGui(self):
         # Create action that will start plugin configuration
-        self.action = QAction(QIcon("icon.png"), \
-                              "Menu Item", self.iface.mainWindow())
+        self.action = QAction(QIcon("icon.png"), "Menu Item", self.iface.mainWindow())
         # connect the action to the run method
         # QObject.connect(self.action, pyqtSignal("activated()"), self.run)
         self.action.setObjectName("test Action")
@@ -54,12 +53,37 @@ class Zoomer:
     # run method that performs all the real work
     def run(self):
         # create and show the dialog
-        dlg = ZoomerDialog()
-        # show the dialog
-        dlg.show()
-        result = dlg.exec_()
-        # See if OK was pressed
-        if result == 1:
-            # do something useful (delete the line containing pass and
-            # substitute with your code
-            pass
+        project = QgsProject.instance()
+        project.read("C:/Users/zjp/QGIS/pg.qgs")
+        uri = QgsDataSourceUri()
+        # set host name, port, database name, username and password
+        uri.setConnection("localhost", "5432", "demo", "postgres", "postgres")
+        # set database schema, table name, geometry column and optionally
+        # subset (WHERE clause)
+        uri.setDataSource("public", "objnam", "the_geom")
+        vlayer = QgsVectorLayer(uri.uri(False), "layer name you like", "postgres")
+        if not vlayer.isValid():
+            dlg = ZoomerDialog()
+            # show the dialog
+            dlg.show()
+            result = dlg.exec_()
+            # See if OK was pressed
+            if result == 1:
+                # do something useful (delete the line containing pass and
+                # substitute with your code
+                pass
+        # for field in vlayer.fields():
+        #     QMessageBox.information(None, field.name(), field.typeName())
+        features = vlayer.getFeatures()
+        # for feature in features:
+        #     geom = feature.geometry()
+        #     QMessageBox.information(None, "Feature ID", str(feature.id()))
+        #     if geom.wkbType() == QgsWkbTypes.Point:
+        #         x = geom.asPoint()
+        #         QMessageBox.information(None, "Point", x.asWkt())
+        #     attrs = feature.attributes()
+        #     QMessageBox.information(None, "attrs", str(attrs))
+        vlayer.selectAll()
+        project.addMapLayer(vlayer)
+
+
