@@ -17,15 +17,25 @@ email                : onoma@in.gr
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
-def name(): 
-  return "Zoom plugin" 
+
+
+def name():
+    return "Zoom plugin"
+
+
 def description():
-  return "Zooms to a point when the user hits the button."
-def version(): 
-  return "Version 0.1" 
+    return "Zooms to a point when the user hits the button."
+
+
+def version():
+    return "Version 0.1"
+
+
 def qgisMinimumVersion():
-  return "1.0"
-def classFactory(iface): 
-  # load Zoomer class from file Zoomer
-  from .Zoomer import Zoomer
-  return Zoomer(iface)
+    return "1.0"
+
+
+def classFactory(iface):
+    # load Zoomer class from file Zoomer
+    from .Zoomer import Zoomer
+    return Zoomer(iface)

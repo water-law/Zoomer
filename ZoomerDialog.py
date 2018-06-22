@@ -18,10 +18,12 @@ email                : onoma@in.gr
 """
 from PyQt5 import QtCore, QtWidgets
 from .Ui_Zoomer import Ui_Zoomer
+
+
 # create the dialog for Zoomer
 class ZoomerDialog(QtWidgets.QDialog):
-  def __init__(self):
-    QtWidgets.QDialog.__init__(self)
-    # Set up the user interface from Designer. 
-    self.ui = Ui_Zoomer()
-    self.ui.setupUi(self)
+    def __init__(self):
+        QtWidgets.QDialog.__init__(self)
+        # Set up the user interface from Designer.
+        self.ui = Ui_Zoomer()
+        self.ui.setupUi(self)

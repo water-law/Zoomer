@@ -25,38 +25,41 @@ from qgis.core import *
 # Import the code for the dialog
 from .ZoomerDialog import ZoomerDialog
 
-class Zoomer: 
 
-  def __init__(self, iface):
-    # Save reference to the QGIS interface
-    self.iface = iface
+class Zoomer:
 
-  def initGui(self):  
-    # Create action that will start plugin configuration
-    self.action = QAction(QIcon("icon.png"), \
-        "Menu Item", self.iface.mainWindow())
-    # connect the action to the run method
-    # QObject.connect(self.action, pyqtSignal("activated()"), self.run)
-    self.action.triggered.connect(self.run)
+    def __init__(self, iface):
+        # Save reference to the QGIS interface
+        self.iface = iface
 
-    # Add toolbar button and menu item
-    self.iface.addToolBarIcon(self.action)
-    self.iface.addPluginToMenu("&Menu Item", self.action)
+    def initGui(self):
+        # Create action that will start plugin configuration
+        self.action = QAction(QIcon("icon.png"), \
+                              "Menu Item", self.iface.mainWindow())
+        # connect the action to the run method
+        # QObject.connect(self.action, pyqtSignal("activated()"), self.run)
+        self.action.setObjectName("test Action")
+        self.action.setWhatsThis("Configuration for test plugin")
+        self.action.triggered.connect(self.run)
 
-  def unload(self):
-    # Remove the plugin menu item and icon
-    self.iface.removePluginMenu("&Menu Item",self.action)
-    self.iface.removeToolBarIcon(self.action)
+        # Add toolbar button and menu item
+        self.iface.addToolBarIcon(self.action)
+        self.iface.addPluginToMenu("&Menu Item", self.action)
 
-  # run method that performs all the real work
-  def run(self): 
-    # create and show the dialog 
-    dlg = ZoomerDialog() 
-    # show the dialog
-    dlg.show()
-    result = dlg.exec_() 
-    # See if OK was pressed
-    if result == 1: 
-      # do something useful (delete the line containing pass and
-      # substitute with your code
-      pass 
+    def unload(self):
+        # Remove the plugin menu item and icon
+        self.iface.removePluginMenu("&Menu Item", self.action)
+        self.iface.removeToolBarIcon(self.action)
+
+    # run method that performs all the real work
+    def run(self):
+        # create and show the dialog
+        dlg = ZoomerDialog()
+        # show the dialog
+        dlg.show()
+        result = dlg.exec_()
+        # See if OK was pressed
+        if result == 1:
+            # do something useful (delete the line containing pass and
+            # substitute with your code
+            pass
