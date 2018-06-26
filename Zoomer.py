@@ -23,7 +23,7 @@ from PyQt5.QtWidgets import QAction, QMessageBox
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 # Import the code for the dialog
-from .ZoomerDialog import ZoomerDialog
+from .model.tools import attribute_display, all_languages
 
 
 class Zoomer:
@@ -52,38 +52,34 @@ class Zoomer:
 
     # run method that performs all the real work
     def run(self):
-        # create and show the dialog
-        project = QgsProject.instance()
-        project.read("C:/Users/zjp/QGIS/pg.qgs")
         uri = QgsDataSourceUri()
-        # set host name, port, database name, username and password
         uri.setConnection("localhost", "5432", "demo", "postgres", "postgres")
-        # set database schema, table name, geometry column and optionally
-        # subset (WHERE clause)
-        uri.setDataSource("public", "objnam", "the_geom")
-        vlayer = QgsVectorLayer(uri.uri(False), "layer name you like", "postgres")
-        if not vlayer.isValid():
-            dlg = ZoomerDialog()
-            # show the dialog
-            dlg.show()
-            result = dlg.exec_()
-            # See if OK was pressed
-            if result == 1:
-                # do something useful (delete the line containing pass and
-                # substitute with your code
-                pass
-        # for field in vlayer.fields():
-        #     QMessageBox.information(None, field.name(), field.typeName())
-        features = vlayer.getFeatures()
-        # for feature in features:
-        #     geom = feature.geometry()
-        #     QMessageBox.information(None, "Feature ID", str(feature.id()))
-        #     if geom.wkbType() == QgsWkbTypes.Point:
-        #         x = geom.asPoint()
-        #         QMessageBox.information(None, "Point", x.asWkt())
-        #     attrs = feature.attributes()
-        #     QMessageBox.information(None, "attrs", str(attrs))
-        vlayer.selectAll()
-        project.addMapLayer(vlayer)
+        uri.setDataSource("public", "objnam", "geom")
+        vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
+
+        formConfig = vlayer.editFormConfig()
+        attrs = vlayer.attributeList()
+        fields = vlayer.fields()
+        languages = all_languages()
+        for index in attrs:
+            field_name = fields[index].name()
+            # 设置 field 别名
+            vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
+            if field_name == 'fid':
+                # 设置某个 field 是否可写
+                formConfig.setReadOnly(index, False)
+            elif field_name == 'objl':
+                # 设置默认值
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+            elif field_name == 'scamax':
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', False))
+            elif field_name == 'scamin':
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+            elif field_name == 'level':
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+            elif field_name.replace('_', '-') in languages:
+                fields.remove(index)
+        # vectorLayer->setEditorWidgetSetup(1, QgsEditorWidgetSetup("Enumeration", QVariantMap()));
+        vlayer.setEditFormConfig(formConfig)
 
 

@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <class name="objnam">
+        <display_name>Object name</display_name>
+        <attributes>
+            <attribute name="fid">
+                <display_name>Feature unique id</display_name>
+                <type>Integer</type>
+            </attribute>
+            <attribute name="objl">
+                <display_name>Object label code</display_name>
+                <type>Enum</type>
+                <enums>
+                    <enum>
+                        <code>1</code>
+                        <description>Administrator area(Named)</description>
+                    </enum>
+                    <enum>
+                        <code>2</code>
+                        <description>Airport/airfield</description>
+                    </enum>
+                    <enum>
+                        <code>11</code>
+                        <description>Bridge</description>
+                    </enum>
+                    <enum>
+                        <code>12</code>
+                        <description>Building, single</description>
+                    </enum>
+                    <enum>
+                        <code>13</code>
+                        <description>Built-up, area</description>
+                    </enum>
+                    <enum>
+                        <code>23</code>
+                        <description>Canal</description>
+                    </enum>
+                    <enum>
+                        <code>25</code>
+                        <description>Cargo transshipment area</description>
+                    </enum>
+                    <enum>
+                        <code>26</code>
+                        <description>Causeway</description>
+                    </enum>
+                    <enum>
+                        <code>51</code>
+                        <description>Fairway</description>
+                    </enum>
+                    <enum>
+                        <code>53</code>
+                        <description>Fence line</description>
+                    </enum>
+                    <enum>
+                        <code>54</code>
+                        <description>Fishery zone</description>
+                    </enum>
+                    <enum>
+                        <code>60</code>
+                        <description>Freeport area</description>
+                    </enum>
+                    <enum>
+                        <code>63</code>
+                        <description>Harbor area(administrative)</description>
+                    </enum>
+                    <enum>
+                        <code>66</code>
+                        <description>Ice area</description>
+                    </enum>
+                    <enum>
+                        <code>69</code>
+                        <description>Lake</description>
+                    </enum>
+                    <enum>
+                        <code>71</code>
+                        <description>Land area</description>
+                    </enum>
+                    <enum>
+                        <code>72</code>
+                        <description>Land elevation</description>
+                    </enum>
+                    <enum>
+                        <code>73</code>
+                        <description>Land region</description>
+                    </enum>
+                    <enum>
+                        <code>74</code>
+                        <description>Landmark</description>
+                    </enum>
+                    <enum>
+                        <code>95</code>
+                        <description>Pontoon</description>
+                    </enum>
+                    <enum>
+                        <code>97</code>
+                        <description>Production/storage area</description>
+                    </enum>
+                    <enum>
+                        <code>106</code>
+                        <description>Railway</description>
+                    </enum>
+                    <enum>
+                        <code>108</code>
+                        <description>Recommended route center line</description>
+                    </enum>
+                    <enum>
+                        <code>109</code>
+                        <description>Recommended track</description>
+                    </enum>
+                    <enum>
+                        <code>112</code>
+                        <description>Restricted area</description>
+                    </enum>
+                    <enum>
+                        <code>114</code>
+                        <description>River</description>
+                    </enum>
+                    <enum>
+                        <code>116</code>
+                        <description>Road</description>
+                    </enum>
+                    <enum>
+                        <code>117</code>
+                        <description>Runway</description>
+                    </enum>
+                    <enum>
+                        <code>119</code>
+                        <description>Sea area/named water area</description>
+                    </enum>
+                    <enum>
+                        <code>121</code>
+                        <description>Seabed area</description>
+                    </enum>
+                    <enum>
+                        <code>122</code>
+                        <description>Shore line construction</description>
+                    </enum>
+                    <enum>
+                        <code>123</code>
+                        <description>Tunnel</description>
+                    </enum>
+                    <enum>
+                        <code>153</code>
+                        <description>Underwater/awash rock</description>
+                    </enum>
+                </enums>
+            </attribute>
+            <attribute name="scamax">
+                <display_name>Scale maximum</display_name>
+                <type>Integer</type>
+            </attribute>
+            <attribute name="scamin">
+                <display_name>Scale minimum</display_name>
+                <type>Integer</type>
+            </attribute>
+            <attribute name="level">
+                <display_name>Zoom level</display_name>
+                <type>Integer</type>
+            </attribute>
+        </attributes>
+        <languages>
+            <language country="af-ZA">
+                <name>Afrikaans - South Africa</name>
+                <code>0x0436</code>
+            </language>
+
+            <language country="sq-AL">
+                <name>Albanian - Albania</name>
+                <code>0x041C</code>
+            </language>
+
+            <language country="ar-DZ">
+                <name>Arabic - Algeria</name>
+                <code>0x1401</code>
+            </language>
+
+            <language country="ar-BH">
+                <name>Arabic - Bahrain</name>
+                <code>0x3C01</code>
+            </language>
+
+            <language country="ar-EG">
+                <name>Arabic - Egypt</name>
+                <code>0x0C01</code>
+            </language>
+
+            <language country="ar-IQ">
+                <name>Arabic - Iraq</name>
+                <code>0x0801</code>
+            </language>
+
+            <language country="ar-JO">
+                <name>Arabic - Jordan</name>
+                <code>0x2C01</code>
+            </language>
+
+            <language country="ar-KW">
+                <name>Arabic - Kuwait</name>
+                <code>0x3401</code>
+            </language>
+
+            <language country="ar-LB">
+                <name>Arabic - Lebanon</name>
+                <code>0x3001</code>
+            </language>
+
+            <language country="ar-LY">
+                <name>Arabic - Libya</name>
+                <code>0x1001</code>
+            </language>
+
+            <language country="ar-MA">
+                <name>Arabic - Morocco</name>
+                <code>0x1801</code>
+            </language>
+
+            <language country="ar-OM">
+                <name>Arabic - Oman</name>
+                <code>0x2001</code>
+            </language>
+
+            <language country="ar-QA">
+                <name>Arabic - Qatar</name>
+                <code>0x4001</code>
+            </language>
+
+            <language country="ar-SA">
+                <name>Arabic - Saudi Arabia</name>
+                <code>0x0401</code>
+            </language>
+
+            <language country="ar-SY">
+                <name>Arabic - Syria</name>
+                <code>0x2801</code>
+            </language>
+
+            <language country="ar-TN">
+                <name>Arabic - Tunisia</name>
+                <code>0x1C01</code>
+            </language>
+
+            <language country="ar-AE">
+                <name>Arabic - United Arab Emirates</name>
+                <code>0x3801</code>
+            </language>
+
+            <language country="ar-YE">
+                <name>Arabic - Yemen</name>
+                <code>0x2401</code>
+            </language>
+
+            <language country="hy-AM">
+                <name>Armenian - Armenia</name>
+                <code>0x042B</code>
+            </language>
+
+            <language country="Cy-az-AZ">
+                <name>Azeri (Cyrillic) - Azerbaijan</name>
+                <code>0x082C</code>
+            </language>
+
+            <language country="Lt-az-AZ">
+                <name>Azeri (Latin) - Azerbaijan</name>
+                <code>0x042C</code>
+            </language>
+
+            <language country="eu-ES">
+                <name>Basque - Basque</name>
+                <code>0x042D</code>
+            </language>
+
+            <language country="be-BY">
+                <name>Belarusian - Belarus</name>
+                <code>0x0423</code>
+            </language>
+
+            <language country="bg-BG">
+                <name>Bulgarian - Bulgaria</name>
+                <code>0x0402</code>
+            </language>
+
+            <language country="ca-ES">
+                <name>Catalan - Catalan</name>
+                <code>0x0403</code>
+            </language>
+
+            <language country="zh-CN">
+                <name>Chinese - China</name>
+                <code>0x0804</code>
+            </language>
+
+            <language country="zh-HK">
+                <name>Chinese - Hong Kong SAR</name>
+                <code>0x0C04</code>
+            </language>
+
+            <language country="zh-MO">
+                <name>Chinese - Macau SAR</name>
+                <code>0x1404</code>
+            </language>
+
+            <language country="zh-SG">
+                <name>Chinese - Singapore</name>
+                <code>0x1004</code>
+            </language>
+
+            <language country="zh-TW">
+                <name>Chinese - Taiwan</name>
+                <code>0x0404</code>
+            </language>
+
+            <language country="zh-CHS">
+                <name>Chinese (Simplified)</name>
+                <code>0x0004</code>
+            </language>
+
+            <language country="zh-CHT">
+                <name>Chinese (Traditional)</name>
+                <code>0x7C04</code>
+            </language>
+
+            <language country="hr-HR">
+                <name>Croatian - Croatia</name>
+                <code>0x041A</code>
+            </language>
+
+            <language country="cs-CZ">
+                <name>Czech - Czech Republic</name>
+                <code>0x0405</code>
+            </language>
+
+            <language country="da-DK">
+                <name>Danish - Denmark</name>
+                <code>0x0406</code>
+            </language>
+
+            <language country="div-MV">
+                <name>Dhivehi - Maldives</name>
+                <code>0x0465</code>
+            </language>
+
+            <language country="nl-BE">
+                <name>Dutch - Belgium</name>
+                <code>0x0813</code>
+            </language>
+
+            <language country="nl-NL">
+                <name>Dutch - The Netherlands</name>
+                <code>0x0413</code>
+            </language>
+
+            <language country="en-AU">
+                <name>English - Australia</name>
+                <code>0x0C09</code>
+            </language>
+
+            <language country="en-BZ">
+                <name>English - Belize</name>
+                <code>0x2809</code>
+            </language>
+
+            <language country="en-CA">
+                <name>English - Canada</name>
+                <code>0x1009</code>
+            </language>
+
+            <language country="en-CB">
+                <name>English - Caribbean</name>
+                <code>0x2409</code>
+            </language>
+
+            <language country="en-IE">
+                <name>English - Ireland</name>
+                <code>0x1809</code>
+            </language>
+
+            <language country="en-JM">
+                <name>English - Jamaica</name>
+                <code>0x2009</code>
+            </language>
+
+            <language country="en-NZ">
+                <name>English - New Zealand</name>
+                <code>0x1409</code>
+            </language>
+
+            <language country="en-PH">
+                <name>English - Philippines</name>
+                <code>0x3409</code>
+            </language>
+
+            <language country="en-ZA">
+                <name>English - South Africa</name>
+                <code>0x1C09</code>
+            </language>
+
+            <language country="en-TT">
+                <name>English - Trinidad and Tobago</name>
+                <code>0x2C09</code>
+            </language>
+
+            <language country="en-GB">
+                <name>English - United Kingdom</name>
+                <code>0x0809</code>
+            </language>
+
+            <language country="en-US">
+                <name>English - United States</name>
+                <code>0x0409</code>
+            </language>
+
+            <language country="en-ZW">
+                <name>English - Zimbabwe</name>
+                <code>0x3009</code>
+            </language>
+
+            <language country="et-EE">
+                <name>Estonian - Estonia</name>
+                <code>0x0425</code>
+            </language>
+
+            <language country="fo-FO">
+                <name>Faroese - Faroe Islands</name>
+                <code>0x0438</code>
+            </language>
+
+            <language country="fa-IR">
+                <name>Farsi - Iran</name>
+                <code>0x0429</code>
+            </language>
+
+            <language country="fi-FI">
+                <name>Finnish - Finland</name>
+                <code>0x040B</code>
+            </language>
+
+            <language country="fr-BE">
+                <name>French - Belgium</name>
+                <code>0x080C</code>
+            </language>
+
+            <language country="fr-CA">
+                <name>French - Canada</name>
+                <code>0x0C0C</code>
+            </language>
+
+            <language country="fr-FR">
+                <name>French - France</name>
+                <code>0x040C</code>
+            </language>
+
+            <language country="fr-LU">
+                <name>French - Luxembourg</name>
+                <code>0x140C</code>
+            </language>
+
+            <language country="fr-MC">
+                <name>French - Monaco</name>
+                <code>0x180C</code>
+            </language>
+
+            <language country="fr-CH">
+                <name>French - Switzerland</name>
+                <code>0x100C</code>
+            </language>
+
+            <language country="gl-ES">
+                <name>Galician - Galician</name>
+                <code>0x0456</code>
+            </language>
+
+            <language country="ka-GE">
+                <name>Georgian - Georgia</name>
+                <code>0x0437</code>
+            </language>
+
+            <language country="de-AT">
+                <name>German - Austria</name>
+                <code>0x0C07</code>
+            </language>
+
+            <language country="de-DE">
+                <name>German - Germany</name>
+                <code>0x0407</code>
+            </language>
+
+            <language country="de-LI">
+                <name>German - Liechtenstein</name>
+                <code>0x1407</code>
+            </language>
+
+            <language country="de-LU">
+                <name>German - Luxembourg</name>
+                <code>0x1007</code>
+            </language>
+
+            <language country="de-CH">
+                <name>German - Switzerland</name>
+                <code>0x0807</code>
+            </language>
+
+            <language country="el-GR">
+                <name>Greek - Greece</name>
+                <code>0x0408</code>
+            </language>
+
+            <language country="gu-IN">
+                <name>Gujarati - India</name>
+                <code>0x0447</code>
+            </language>
+
+            <language country="he-IL">
+                <name>Hebrew - Israel</name>
+                <code>0x040D</code>
+            </language>
+
+            <language country="hi-IN">
+                <name>Hindi - India</name>
+                <code>0x0439</code>
+            </language>
+
+            <language country="hu-HU">
+                <name>Hungarian - Hungary</name>
+                <code>0x040E</code>
+            </language>
+
+            <language country="is-IS">
+                <name>Icelandic - Iceland</name>
+                <code>0x040F</code>
+            </language>
+
+            <language country="id-ID">
+                <name>Indonesian - Indonesia</name>
+                <code>0x0421</code>
+            </language>
+
+            <language country="it-IT">
+                <name>Italian - Italy</name>
+                <code>0x0410</code>
+            </language>
+
+            <language country="it-CH">
+                <name>Italian - Switzerland</name>
+                <code>0x0810</code>
+            </language>
+
+            <language country="ja-JP">
+                <name>Japanese - Japan</name>
+                <code>0x0411</code>
+            </language>
+
+            <language country="kn-IN">
+                <name>Kannada - India</name>
+                <code>0x044B</code>
+            </language>
+
+            <language country="kk-KZ">
+                <name>Kazakh - Kazakhstan</name>
+                <code>0x043F</code>
+            </language>
+
+            <language country="kok-IN">
+                <name>Konkani - India</name>
+                <code>0x0457</code>
+            </language>
+
+            <language country="ko-KR">
+                <name>Korean - Korea</name>
+                <code>0x0412</code>
+            </language>
+
+            <language country="ky-KZ">
+                <name>Kyrgyz - Kazakhstan</name>
+                <code>0x0440</code>
+            </language>
+
+            <language country="lv-LV">
+                <name>Latvian - Latvia</name>
+                <code>0x0426</code>
+            </language>
+
+            <language country="lt-LT">
+                <name>Lithuanian - Lithuania</name>
+                <code>0x0427</code>
+            </language>
+
+            <language country="mk-MK">
+                <name>Macedonian (FYROM)</name>
+                <code>0x042F</code>
+            </language>
+
+            <language country="ms-BN">
+                <name>Malay - Brunei</name>
+                <code>0x083E</code>
+            </language>
+
+            <language country="ms-MY">
+                <name>Malay - Malaysia</name>
+                <code>0x043E</code>
+            </language>
+
+            <language country="mr-IN">
+                <name>Marathi - India</name>
+                <code>0x044E</code>
+            </language>
+
+            <language country="mn-MN">
+                <name>Mongolian - Mongolia</name>
+                <code>0x0450</code>
+            </language>
+
+            <language country="nb-NO">
+                <name>Norwegian (Bokmal) - Norway</name>
+                <code>0x0414</code>
+            </language>
+
+            <language country="nn-NO">
+                <name>Norwegian (Nynorsk) - Norway</name>
+                <code>0x0814</code>
+            </language>
+
+            <language country="pl-PL">
+                <name>Polish - Poland</name>
+                <code>0x0415</code>
+            </language>
+
+            <language country="pt-BR">
+                <name>Portuguese - Brazil</name>
+                <code>0x0416</code>
+            </language>
+
+            <language country="pt-PT">
+                <name>Portuguese - Portugal</name>
+                <code>0x0816</code>
+            </language>
+
+            <language country="pa-IN">
+                <name>Punjabi - India</name>
+                <code>0x0446</code>
+            </language>
+
+            <language country="ro-RO">
+                <name>Romanian - Romania</name>
+                <code>0x0418</code>
+            </language>
+
+            <language country="ru-RU">
+                <name>Russian - Russia</name>
+                <code>0x0419</code>
+            </language>
+
+            <language country="sa-IN">
+                <name>Sanskrit - India</name>
+                <code>0x044F</code>
+            </language>
+
+            <language country="Cy-sr-SP">
+                <name>Serbian (Cyrillic) - Serbia</name>
+                <code>0x0C1A</code>
+            </language>
+
+            <language country="Lt-sr-SP">
+                <name>Serbian (Latin) - Serbia</name>
+                <code>0x081A</code>
+            </language>
+
+            <language country="sk-SK">
+                <name>Slovak - Slovakia</name>
+                <code>0x041B</code>
+            </language>
+
+            <language country="sl-SI">
+                <name>Slovenian - Slovenia</name>
+                <code>0x0424</code>
+            </language>
+
+            <language country="es-AR">
+                <name>Spanish - Argentina</name>
+                <code>0x2C0A</code>
+            </language>
+
+            <language country="es-BO">
+                <name>Spanish - Bolivia</name>
+                <code>0x400A</code>
+            </language>
+
+            <language country="es-CL">
+                <name>Spanish - Chile</name>
+                <code>0x340A</code>
+            </language>
+
+            <language country="es-CO">
+                <name>Spanish - Colombia</name>
+                <code>0x240A</code>
+            </language>
+
+            <language country="es-CR">
+                <name>Spanish - Costa Rica</name>
+                <code>0x140A</code>
+            </language>
+
+            <language country="es-DO">
+                <name>Spanish - Dominican Republic</name>
+                <code>0x1C0A</code>
+            </language>
+
+            <language country="es-EC">
+                <name>Spanish - Ecuador</name>
+                <code>0x300A</code>
+            </language>
+
+            <language country="es-SV">
+                <name>Spanish - El Salvador</name>
+                <code>0x440A</code>
+            </language>
+
+            <language country="es-GT">
+                <name>Spanish - Guatemala</name>
+                <code>0x100A</code>
+            </language>
+
+            <language country="es-HN">
+                <name>Spanish - Honduras</name>
+                <code>0x480A</code>
+            </language>
+
+            <language country="es-MX">
+                <name>Spanish - Mexico</name>
+                <code>0x080A</code>
+            </language>
+
+            <language country="es-NI">
+                <name>Spanish - Nicaragua</name>
+                <code>0x4C0A</code>
+            </language>
+
+            <language country="es-PA">
+                <name>Spanish - Panama</name>
+                <code>0x180A</code>
+            </language>
+
+            <language country="es-PY">
+                <name>Spanish - Paraguay</name>
+                <code>0x3C0A</code>
+            </language>
+
+            <language country="es-PE">
+                <name>Spanish - Peru</name>
+                <code>0x280A</code>
+            </language>
+
+            <language country="es-PR">
+                <name>Spanish - Puerto Rico</name>
+                <code>0x500A</code>
+            </language>
+
+            <language country="es-ES">
+                <name>Spanish - Spain</name>
+                <code>0x0C0A</code>
+            </language>
+
+            <language country="es-UY">
+                <name>Spanish - Uruguay</name>
+                <code>0x380A</code>
+            </language>
+
+            <language country="es-VE">
+                <name>Spanish - Venezuela</name>
+                <code>0x200A</code>
+            </language>
+
+            <language country="sw-KE">
+                <name>Swahili - Kenya</name>
+                <code>0x0441</code>
+            </language>
+
+            <language country="sv-FI">
+                <name>Swedish - Finland</name>
+                <code>0x081D</code>
+            </language>
+
+            <language country="sv-SE">
+                <name>Swedish - Sweden</name>
+                <code>0x041D</code>
+            </language>
+
+            <language country="syr-SY">
+                <name>Syriac - Syria</name>
+                <code>0x045A</code>
+            </language>
+
+            <language country="ta-IN">
+                <name>Tamil - India</name>
+                <code>0x0449</code>
+            </language>
+
+            <language country="tt-RU">
+                <name>Tatar - Russia</name>
+                <code>0x0444</code>
+            </language>
+
+            <language country="te-IN">
+                <name>Telugu - India</name>
+                <code>0x044A</code>
+            </language>
+
+            <language country="th-TH">
+                <name>Thai - Thailand</name>
+                <code>0x041E</code>
+            </language>
+
+            <language country="tr-TR">
+                <name>Turkish - Turkey</name>
+                <code>0x041F</code>
+            </language>
+
+            <language country="uk-UA">
+                <name>Ukrainian - Ukraine</name>
+                <code>0x0422</code>
+            </language>
+
+            <language country="ur-PK">
+                <name>Urdu - Pakistan</name>
+                <code>0x0420</code>
+            </language>
+
+            <language country="Cy-uz-UZ">
+                <name>Uzbek (Cyrillic) - Uzbekistan</name>
+                <code>0x0843</code>
+            </language>
+
+            <language country="Lt-uz-UZ">
+                <name>Uzbek (Latin) - Uzbekistan</name>
+                <code>0x0443</code>
+            </language>
+
+            <language country="vi-VN">
+                <name>Vietnamese - Vietnam</name>
+                <code>0x042A</code>
+            </language>
+        </languages>
+    </class>
+</root>
