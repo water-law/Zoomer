@@ -65,21 +65,28 @@ class Zoomer:
             field_name = fields[index].name()
             # 设置 field 别名
             vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
-            if field_name == 'fid':
+            if field_name == 'id':
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
+            elif field_name == 'fid':
                 # 设置某个 field 是否可写
                 formConfig.setReadOnly(index, False)
             elif field_name == 'objl':
                 # 设置默认值
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
             elif field_name == 'scamax':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', False))
             elif field_name == 'scamin':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
             elif field_name == 'level':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
-            elif field_name.replace('_', '-') in languages:
-                fields.remove(index)
-        # vectorLayer->setEditorWidgetSetup(1, QgsEditorWidgetSetup("Enumeration", QVariantMap()));
+            elif field_name == 'en_us':
+                vlayer.setFieldAlias(index, languages['en-US'])
+            elif field_name == 'zh_chs':
+                vlayer.setFieldAlias(index, languages['zh-CHS'])
+                # vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
+        # formConfig.setUiForm('./Ui_Zoomer.ui')
+        # formConfig.addTab(QgsAttributeEditorElement(QgsAttributeEditorElement.AttributeEditorType.AeTypeContainer, "+", None))
         vlayer.setEditFormConfig(formConfig)
 
 
