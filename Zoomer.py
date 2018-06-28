@@ -70,7 +70,7 @@ class Zoomer:
         for index in attrs:
             field_name = fields[index].name()
             # 设置 field 别名
-            # vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
+            vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
             if field_name == 'id':
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
             elif field_name == 'fid':
@@ -79,22 +79,24 @@ class Zoomer:
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'objl':
                 # 设置默认值
-                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', True))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
             elif field_name == 'scamax':
-                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', False))
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', True))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'scamin':
-                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', True))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'level':
                 # vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
             elif field_name == 'en_us':
                 vlayer.setFieldAlias(index, languages['en-US'])
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('None', True))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("TextEdit", {}))
             elif field_name == 'zh_chs':
                 vlayer.setFieldAlias(index, languages['zh-CHS'])
+                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('None', True))
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("TextEdit", {}))
                 # vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
         formConfig.setUiForm('./Ui_Form.ui')
