@@ -11,6 +11,7 @@ myDialog = None
 
 
 def formOpen(dialog, layer, feature):
+    # dialog is an instance of class qgis.gui.QgsAttributeForm
     global myDialog
     myDialog = dialog
     global fidField
@@ -28,26 +29,28 @@ def formOpen(dialog, layer, feature):
     zh_chsField = dialog.findChild(QLineEdit, "zh_chs")
     en_usField = dialog.findChild(QLineEdit, "en_us")
     buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
-    QMessageBox.information(myDialog, "From", str(type(myDialog)))
+    resetButton = buttonBox.button(QDialogButtonBox.Reset)
     # Disconnect the signal that QGIS has wired up for the dialog to the button box.
-    # buttonBox.accepted.disconnect(myDialog.accept)
-
+    myDialog.disconnectButtonBox()
     # Wire up our own signals.
     buttonBox.accepted.connect(validate)
-    # buttonBox.rejected.connect(myDialog.reject)
+    buttonBox.rejected.connect(myDialog.close)
+    resetButton.clicked.connect(myDialog.resetValues)
 
 
 def validate():
     # Make sure that the name field isn't empty.
-    # QMessageBox.information(None, "QQ", "QQQQQQQQQ")
     if not len(fidField.text()) > 0:
         msgBox = QMessageBox()
         msgBox.setText("fid field can not be null.{}")
         msgBox.exec_()
+        pass
     elif not int(scaminField.text()) > 0:
         msgBox = QMessageBox()
         msgBox.setText("scamin field can not be null.")
         msgBox.exec_()
+        pass
     else:
         # Return the form as accpeted to QGIS.
-        myDialog.accept()
+        pass
+

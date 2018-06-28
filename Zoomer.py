@@ -25,6 +25,7 @@ from qgis.core import *
 # Import the code for the dialog
 from .model.tools import attribute_display, all_languages
 
+
 class Zoomer:
 
     def __init__(self, iface):
@@ -35,7 +36,6 @@ class Zoomer:
         # Create action that will start plugin configuration
         self.action = QAction(QIcon("icon.png"), "Menu Item", self.iface.mainWindow())
         # connect the action to the run method
-        # QObject.connect(self.action, pyqtSignal("activated()"), self.run)
         self.action.setObjectName("test Action")
         self.action.setWhatsThis("Configuration for test plugin")
         self.action.triggered.connect(self.run)
@@ -57,33 +57,45 @@ class Zoomer:
         vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
 
         formConfig = vlayer.editFormConfig()
+        # 可在此设置图层 field 字段的是否显示
+        # 在 ui 文件中控制图层 field 字段的是否可编辑， 控件类型
+        """
+        设置 field 是否可编辑只需在 ui 文件中关联控件的可编辑属性
+        设置 field 控件类型
+        无需设置别名， 在 Label 中指定标签名字
+        """
         attrs = vlayer.attributeList()
         fields = vlayer.fields()
         languages = all_languages()
         for index in attrs:
             field_name = fields[index].name()
             # 设置 field 别名
-            vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
+            # vlayer.setFieldAlias(index, attribute_display('objnam', field_name))
             if field_name == 'id':
                 vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
             elif field_name == 'fid':
                 # 设置某个 field 是否可写
                 formConfig.setReadOnly(index, False)
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'objl':
                 # 设置默认值
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
-                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {"111": "as", "112": "assa"}))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
             elif field_name == 'scamax':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', False))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'scamin':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Range", {}))
             elif field_name == 'level':
-                vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
-                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {"111": "as", "112": "assa"}))
+                # vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
             elif field_name == 'en_us':
                 vlayer.setFieldAlias(index, languages['en-US'])
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("TextEdit", {}))
             elif field_name == 'zh_chs':
                 vlayer.setFieldAlias(index, languages['zh-CHS'])
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("TextEdit", {}))
                 # vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
         formConfig.setUiForm('./Ui_Form.ui')
         # 设置 python 脚本使用方式
@@ -92,5 +104,3 @@ class Zoomer:
         # 设置脚本入口函数
         formConfig.setInitFunction("formOpen")
         vlayer.setEditFormConfig(formConfig)
-
-
