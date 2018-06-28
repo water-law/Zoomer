@@ -15,3 +15,5 @@ SELECT AddGeometryColumn ('objnam', 'geom', 4326, 'POINT', 2);
 INSERT INTO objnam (fid, geom, objl) VALUES (1,ST_GeomFromText('POINT(-0.1257 51.508)',4326), '111');
 INSERT INTO objnam (fid, geom, objl) VALUES (2,ST_GeomFromText('POINT(-81.233 42.983)',4326),'112');
 INSERT INTO objnam (fid, geom, objl) VALUES (3,ST_GeomFromText('POINT(27.91162491 -33.01529)',4326),'113');
+
+[参考链接](http://live.osgeo.org/zh/quickstart/postgis_quickstart.html)
