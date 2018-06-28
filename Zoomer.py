@@ -17,14 +17,13 @@ email                : onoma@in.gr
  ***************************************************************************/
 """
 # Import the PyQt and QGIS libraries
-from PyQt5.QtCore import *
+import os
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QAction, QMessageBox
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 # Import the code for the dialog
 from .model.tools import attribute_display, all_languages
-
 
 class Zoomer:
 
@@ -73,20 +72,25 @@ class Zoomer:
             elif field_name == 'objl':
                 # 设置默认值
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
-                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {}))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {"111": "as", "112": "assa"}))
             elif field_name == 'scamax':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('25000000', False))
             elif field_name == 'scamin':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
             elif field_name == 'level':
                 vlayer.setDefaultValueDefinition(index, QgsDefaultValue('1', False))
+                vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Enumeration", {"111": "as", "112": "assa"}))
             elif field_name == 'en_us':
                 vlayer.setFieldAlias(index, languages['en-US'])
             elif field_name == 'zh_chs':
                 vlayer.setFieldAlias(index, languages['zh-CHS'])
                 # vlayer.setEditorWidgetSetup(index, QgsEditorWidgetSetup("Hidden", {}))
-        # formConfig.setUiForm('./Ui_Zoomer.ui')
-        # formConfig.addTab(QgsAttributeEditorElement(QgsAttributeEditorElement.AttributeEditorType.AeTypeContainer, "+", None))
+        formConfig.setUiForm('./Ui_Form.ui')
+        # 设置 python 脚本使用方式
+        formConfig.setInitCodeSource(QgsEditFormConfig.CodeSourceFile)
+        formConfig.setInitFilePath(os.path.join(os.path.dirname(__file__), 'Ui_Form.py'))
+        # 设置脚本入口函数
+        formConfig.setInitFunction("formOpen")
         vlayer.setEditFormConfig(formConfig)
 
 
