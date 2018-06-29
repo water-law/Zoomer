@@ -14,8 +14,11 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="2">
-    <widget class="QLineEdit" name="zh_chs"/>
+   <item row="8" column="2">
+    <widget class="QComboBox" name="level"/>
+   </item>
+   <item row="10" column="2">
+    <widget class="QLineEdit" name="en_us"/>
    </item>
    <item row="9" column="0">
     <widget class="QLabel" name="zh_chs_2">
@@ -31,19 +34,30 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
-    <widget class="QLineEdit" name="scamax"/>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLineEdit" name="fid"/>
-   </item>
-   <item row="5" column="10">
+   <item row="5" column="8">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="scamax_2">
+     <property name="text">
+      <string>scamax</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QLineEdit" name="zh_chs"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="fid_2">
+     <property name="text">
+      <string>fid</string>
      </property>
     </widget>
    </item>
@@ -56,46 +70,6 @@
       <string>id</string>
      </property>
     </widget>
-   </item>
-   <item row="8" column="2">
-    <widget class="QLineEdit" name="level"/>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="scamax_2">
-     <property name="text">
-      <string>scamax</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="QLineEdit" name="scamin"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="fid_2">
-     <property name="text">
-      <string>fid</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="objl_2">
-     <property name="text">
-      <string>objl</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLineEdit" name="id">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="dragEnabled">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QLineEdit" name="objl"/>
    </item>
    <item row="8" column="0">
     <widget class="QLabel" name="level_2">
@@ -111,12 +85,40 @@
      </property>
     </widget>
    </item>
-   <item row="10" column="2">
-    <widget class="QLineEdit" name="en_us"/>
+   <item row="5" column="0">
+    <widget class="QLabel" name="objl_2">
+     <property name="text">
+      <string>objl</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QComboBox" name="objl"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QSpinBox" name="fid"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="QSpinBox" name="scamax"/>
+   </item>
+   <item row="7" column="2">
+    <widget class="QSpinBox" name="scamin"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QSpinBox" name="id"/>
+   </item>
+   <item row="7" column="8">
+    <widget class="QPushButton" name="add">
+     <property name="text">
+      <string>add a new column</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

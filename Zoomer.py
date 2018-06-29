@@ -25,7 +25,8 @@ from qgis.core import *
 # Import the code for the dialog
 from .model.tools import *
 
-class Zoomer:
+
+class Zoomer(object):
 
     def __init__(self, iface):
         # Save reference to the QGIS interface
@@ -83,15 +84,15 @@ class Zoomer:
                 vlayer.setDefaultValueDefinition(i, QgsDefaultValue("11", True))
             elif fieldName == 'zh_chs':
                 vlayer.setFieldAlias(i, languages['zh-CHS'])
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-                # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
+                # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
                 vlayer.setDefaultValueDefinition(i, QgsDefaultValue('None', True))
         formConfig = vlayer.editFormConfig()
         formConfig.setReadOnly(1, False)
-        formConfig.setUiForm('./attributeform/Attribution_Form.ui')
+        formConfig.setUiForm('./attributeform/Attribute_Form.ui')
         # 设置 python 脚本使用方式
         formConfig.setInitCodeSource(QgsEditFormConfig.CodeSourceFile)
-        formConfig.setInitFilePath(os.path.join(os.path.dirname(__file__), 'attributeform/attribution_form.py'))
+        formConfig.setInitFilePath(os.path.join(os.path.dirname(__file__), 'attributeform/attribute_form.py'))
         # 设置脚本入口函数
         formConfig.setInitFunction("formOpen")
         vlayer.setEditFormConfig(formConfig)
