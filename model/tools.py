@@ -1,12 +1,16 @@
 import os
 import xml.etree.ElementTree as ET
-PATH = os.path.dirname(__file__)
-XML_PATH = os.path.join(PATH, 'data.xml')
-tree = ET.parse(XML_PATH)
-root = tree.getroot()
+
+
+def init():
+    PATH = os.path.dirname(__file__)
+    XML_PATH = os.path.join(PATH, 'data.xml')
+    tree = ET.parse(XML_PATH)
+    return tree.getroot()
 
 
 def class_display(class_name):
+    root = init()
     for child in root:
         if child.tag != 'class':
             continue
@@ -18,10 +22,11 @@ def class_display(class_name):
     return None
 
 
-print(class_display('objnam'))
+# print(class_display('objnam'))
 
 
 def attribute_display(class_name, attribute_name):
+    root = init()
     for child in root:
         if child.tag != 'class':
             continue
@@ -40,10 +45,11 @@ def attribute_display(class_name, attribute_name):
     return None
 
 
-print(attribute_display('objnam', 'level'))
+# print(attribute_display('objnam', 'level'))
 
 
 def objl_type():
+    root = init()
     d = {}
     for child in root:
         if child.tag != "class" or child.attrib['name'] != 'objnam':
@@ -62,10 +68,11 @@ def objl_type():
     return d
 
 
-print(objl_type())
+# print(objl_type())
 
 
 def all_languages():
+    root = init()
     d = {}
     for child in root:
         if child.tag != "class" or child.attrib['name'] != 'objnam':
@@ -78,4 +85,4 @@ def all_languages():
     return d
 
 
-print(all_languages())
+# print(all_languages())

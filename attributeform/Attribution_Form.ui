@@ -18,14 +18,14 @@
     <widget class="QLineEdit" name="zh_chs"/>
    </item>
    <item row="9" column="0">
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="zh_chs_2">
      <property name="text">
       <string>zh_chs</string>
      </property>
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="scamin_2">
      <property name="text">
       <string>scamin</string>
      </property>
@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="id_2">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -61,7 +61,7 @@
     <widget class="QLineEdit" name="level"/>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="scamax_2">
      <property name="text">
       <string>scamax</string>
      </property>
@@ -71,14 +71,14 @@
     <widget class="QLineEdit" name="scamin"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="fid_2">
      <property name="text">
       <string>fid</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="objl_2">
      <property name="text">
       <string>objl</string>
      </property>
@@ -98,14 +98,14 @@
     <widget class="QLineEdit" name="objl"/>
    </item>
    <item row="8" column="0">
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="level_2">
      <property name="text">
       <string>level</string>
      </property>
     </widget>
    </item>
    <item row="10" column="0">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="en_us_2">
      <property name="text">
       <string>en_us</string>
      </property>
