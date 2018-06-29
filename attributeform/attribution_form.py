@@ -102,7 +102,6 @@ def formOpen(dialog, layer, feature):
     levelLabel = dialog.findChild(QLabel, "level_2")
 
     # if fidLabel is None:
-    #     QMessageBox.information(dialog, "Label", str("no find."))
     zh_chsLabel = dialog.findChild(QLabel, "zh_chs_2")
     en_usLabel = dialog.findChild(QLabel, "en_us_2")
 
