@@ -52,7 +52,7 @@ class Zoomer(object):
     # run method that performs all the real work
     def run(self):
         uri = QgsDataSourceUri()
-        uri.setConnection("localhost", "5432", "demo", "postgres", "postgres")
+        uri.setConnection("localhost", "5432", "place", "postgres", "postgres")
         uri.setDataSource("public", "objnam", "geom")
         vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
         fields = vlayer.fields()
@@ -61,9 +61,7 @@ class Zoomer(object):
         for i, fieldName in enumerate(fieldNames, 0):
             # 设置 field 别名
             vlayer.setFieldAlias(i, attribute_display('objnam', fieldName))
-            if fieldName == 'id':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
-            elif fieldName == 'fid':
+            if fieldName == 'fid':
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
             elif fieldName == 'objl':
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
@@ -75,17 +73,15 @@ class Zoomer(object):
             elif fieldName == 'scamin':
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
                 vlayer.setDefaultValueDefinition(i, QgsDefaultValue('1', True))
-            elif fieldName == 'level':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
-                # vlayer.setDefaultValueDefinition(i, QgsDefaultValue('1', False))
             elif fieldName == 'en_us':
                 vlayer.setFieldAlias(i, languages['en-US'])
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
                 vlayer.setDefaultValueDefinition(i, QgsDefaultValue("11", True))
             elif fieldName == 'zh_chs':
                 vlayer.setFieldAlias(i, languages['zh-CHS'])
+                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+                # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
                 # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
                 vlayer.setDefaultValueDefinition(i, QgsDefaultValue('None', True))
         formConfig = vlayer.editFormConfig()
         formConfig.setReadOnly(1, False)

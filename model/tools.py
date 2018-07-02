@@ -4,9 +4,15 @@ import xml.etree.ElementTree as ET
 
 def init():
     PATH = os.path.dirname(__file__)
-    XML_PATH = os.path.join(PATH, 'data.xml')
+    XML_PATH = os.path.join(PATH, 'base.xml')
     tree = ET.parse(XML_PATH)
     return tree.getroot()
+
+
+def get_class_name():
+    root = init()
+    class_name = root[0].attrib['name']
+    return class_name
 
 
 def class_display(class_name):
@@ -45,14 +51,15 @@ def attribute_display(class_name, attribute_name):
     return None
 
 
-# print(attribute_display('objnam', 'level'))
+# print(attribute_display(get_class_name(), 'level'))
 
 
 def objl_type():
     root = init()
     d = {}
+    class_name = get_class_name()
     for child in root:
-        if child.tag != "class" or child.attrib['name'] != 'objnam':
+        if child.tag != "class" or child.attrib['name'] != class_name:
             continue
         for son in child:
             if son.tag != "attributes":
@@ -74,8 +81,9 @@ def objl_type():
 def all_languages():
     root = init()
     d = {}
+    class_name = get_class_name()
     for child in root:
-        if child.tag != "class" or child.attrib['name'] != 'objnam':
+        if child.tag != "class" or child.attrib['name'] != class_name:
             continue
         for son in child:
             if son.tag != 'languages':

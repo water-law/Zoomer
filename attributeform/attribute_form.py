@@ -2,23 +2,26 @@ from qgis.PyQt.QtWidgets import *
 from qgis.core import QgsEditorWidgetSetup
 from model.tools import *
 
+class_name = get_class_name()
+
 fidField = None
 objlField = None
 scamaxField = None
 scaminField = None
-levelField = None
 zh_chsField = None
 en_usField = None
+
 myDialog = None
+myLayer = None
+
 fidLabel = None
 objlLabel = None
 scamaxLabel = None
 scaminLabel = None
-levelLabel = None
 zh_chsLabel = None
 en_usLabel = None
 
-addPushButton = None
+multi_lingual = ["zh_chs", "en_us"]
 
 
 def setLayerProperties(dialog, layer, feature):
@@ -31,66 +34,66 @@ def setLayerProperties(dialog, layer, feature):
     languages = all_languages()
     for i, fieldName in enumerate(fieldNames, 0):
         # 设置 field 别名
-        layer.setFieldAlias(i, attribute_display('objnam', fieldName))
-        child = dialog.findChild(QLabel, fieldName + "_2")
-        child.setText(attribute_display('objnam', fieldName))
-
-
-def addField(layer):
-    QMessageBox.information(None, "XXX", "ASAs")
-    # try:
-    #     layer.setEditorWidgetSetup(7, QgsEditorWidgetSetup("TextEdit", {}))
-    # except:
-    #     QMessageBox.information(None, "XXX", "ASAs")
+        if i >= 4:
+            continue
+        layer.setFieldAlias(i, attribute_display(class_name, fieldName))
+        child = dialog.findChild(QLabel, "label_" + fieldName)
+        child.setText(attribute_display(class_name, fieldName))
 
 
 def formOpen(dialog, layer, feature):
     # dialog is an instance of class qgis.gui.QgsAttributeForm
     global myDialog
+    global myLayer
     myDialog = dialog
+    myLayer = layer
     global fidField
     global objlField
     global scamaxField
     global scaminField
-    global levelField
-    global zh_chsField
-    global en_usField
     global fidLabel
     global objlLabel
     global scamaxLabel
     global scaminLabel
-    global levelLabel
-    global zh_chsLabel
-    global en_usLabel
-    global addPushButton
+    global okButton
+    global resetButton
     fidField = dialog.findChild(QSpinBox, "fid")
     objlField = dialog.findChild(QComboBox, "objl")
     scamaxField = dialog.findChild(QSpinBox, "scamax")
     scaminField = dialog.findChild(QSpinBox, "scamin")
-    levelField = dialog.findChild(QComboBox, "level")
-    zh_chsField = dialog.findChild(QLineEdit, "zh_chs")
-    en_usField = dialog.findChild(QLineEdit, "en_us")
-    fidLabel = dialog.findChild(QLabel, "fid_2")
-    objlLabel = dialog.findChild(QLabel, "pbjl_2")
-    scamaxLabel = dialog.findChild(QLabel, "scamax_2")
-    scaminLabel = dialog.findChild(QLabel, "scamin_2")
-    levelLabel = dialog.findChild(QLabel, "level_2")
-    addPushButton = dialog.findChild(QPushButton, "add")
-
+    fidLabel = dialog.findChild(QLabel, "label_fid")
+    objlLabel = dialog.findChild(QLabel, "label_pbjl")
+    scamaxLabel = dialog.findChild(QLabel, "label_scamax")
+    scaminLabel = dialog.findChild(QLabel, "label_scamin")
+    okButton = dialog.findChild(QPushButton, "okButton")
+    resetButton = dialog.findChild(QPushButton, "resetButton")
+    x = dialog.findChildren(QDialogButtonBox, "buttonBox")
+    if x is not None:
+        QMessageBox.information(None, "", "xxxxxx")
     # if fidLabel is None:
-    zh_chsLabel = dialog.findChild(QLabel, "zh_chs_2")
-    en_usLabel = dialog.findChild(QLabel, "en_us_2")
+    for lingual in multi_lingual:
+        label = dialog.findChild(QLabel, "label_{}".format(lingual))
+        addButton = dialog.findChild(QPushButton, "add_button_{}".format(lingual))
+        deleteButton = dialog.findChild(QPushButton, "delete_button_{}".format(lingual))
+        if globals()[lingual+"Label"] is None:
+            globals()[lingual+"Label"] = label
+        if globals().get("add_button_"+lingual) is None:
+            globals().setdefault("add_button_"+lingual, addButton)
+            # addButton.clicked.connect()
+        if globals().get("delete_button_"+lingual) is None:
+            globals().setdefault("delete_button_"+lingual, deleteButton)
 
     setLayerProperties(dialog, layer, feature)
-
-    buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
-    resetButton = buttonBox.button(QDialogButtonBox.Reset)
-
-    # Wire up our own signals.
-    buttonBox.accepted.connect(validate)
-    buttonBox.rejected.connect(myDialog.close)
+    okButton.clicked.connect(validate)
     resetButton.clicked.connect(myDialog.resetValues)
-    addPushButton.clicked.connect(addField(layer))
+
+
+def addField():
+    QMessageBox.information(None, "myLayer", str(type(myLayer)))
+    try:
+        myLayer.setEditorWidgetSetup(7, QgsEditorWidgetSetup("TextEdit", {}))
+    except:
+        QMessageBox.information(None, "XXX", "ASAs")
 
 
 def validate():
