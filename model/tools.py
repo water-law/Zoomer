@@ -60,14 +60,16 @@ def db_config():
         d = {}
     return d
 
+
 d = base_dict()
 
 
 def obj_dict():
     return list(base_dict().values())[0]
 
+
 d = obj_dict()
 print(d)
 
 
-print(tuple(db_config()['connection'].values()))
+print(d.keys())

@@ -1,25 +1,25 @@
 from qgis.PyQt.QtWidgets import *
-from qgis.core import QgsEditorWidgetSetup
 from model.tools import *
 
 obj = obj_dict()
 lang_obj = obj['languages']
-fidField = None
-objlField = None
-scamaxField = None
-scaminField = None
-zh_chsField = None
-en_usField = None
+field_fid = None
+field_objl = None
+field_scamax = None
+field_scamin = None
+field_zh_chs = None
+field_en_us = None
 
 myDialog = None
 myLayer = None
+gridLayout = None
 
-fidLabel = None
-objlLabel = None
-scamaxLabel = None
-scaminLabel = None
-zh_chsLabel = None
-en_usLabel = None
+label_fid = None
+label_objl = None
+label_scamax = None
+label_scamin = None
+label_zh_chs = None
+label_en_us = None
 
 multi_lingual = ["zh_chs", "en_us"]
 
@@ -48,67 +48,69 @@ def formOpen(dialog, layer, feature):
     global myLayer
     myDialog = dialog
     myLayer = layer
-    global fidField
-    global objlField
-    global scamaxField
-    global scaminField
-    global fidLabel
-    global objlLabel
-    global scamaxLabel
-    global scaminLabel
+    type_mapping = {"Integer": QSpinBox, "Enumeration": QComboBox, "TextEdit": QLineEdit, "Default": QLineEdit}
     global okButton
     global resetButton
-    fidField = dialog.findChild(QSpinBox, "fid")
-    objlField = dialog.findChild(QComboBox, "objl")
-    scamaxField = dialog.findChild(QSpinBox, "scamax")
-    scaminField = dialog.findChild(QSpinBox, "scamin")
-    fidLabel = dialog.findChild(QLabel, "label_fid")
-    objlLabel = dialog.findChild(QLabel, "label_pbjl")
-    scamaxLabel = dialog.findChild(QLabel, "label_scamax")
-    scaminLabel = dialog.findChild(QLabel, "label_scamin")
-    # okButton = dialog.findChild(QPushButton, "okButton")
-    # resetButton = dialog.findChild(QPushButton, "resetButton")
+    global gridLayout
+    gridLayout = dialog.findChild(QGridLayout, "gridLayout")
+    obj_fields = list(obj.keys())
+    for field in obj_fields:
+        if field in ['display', 'code']:
+            continue
+        if field == 'languages':
+            languages = obj.get('languages', None)
+            if languages is None:
+                continue
+            for language in list(languages.keys()):
+                globals()["field_" + language] = dialog.findChild(QLineEdit, language)
+                if globals().get("label_" + field) is None:
+                    globals()["label_" + field] = dialog.findChild(QLabel, "label_" + field)
+        elif globals().get("field_" + field) is None:
+            type = obj.get(field).get('type')
+            componentType = type_mapping.get(type, type_mapping['Default'])
+            globals()["field_" + field] = dialog.findChild(componentType, field)
+            if globals().get("label_" + field) is None:
+                globals()["label_" + field] = dialog.findChild(QLabel, "label_"+field)
     buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
     resetButton = buttonBox.button(QDialogButtonBox.Reset)
-    # if fidLabel is None:
     for lingual in multi_lingual:
         label = dialog.findChild(QLabel, "label_{}".format(lingual))
         addButton = dialog.findChild(QPushButton, "add_button_{}".format(lingual))
         deleteButton = dialog.findChild(QPushButton, "delete_button_{}".format(lingual))
-        if globals()[lingual+"Label"] is None:
-            globals()[lingual+"Label"] = label
+        if globals().get("label_" + lingual) is None:
+            globals()["label_" + lingual] = label
         if globals().get("add_button_"+lingual) is None:
-            globals().setdefault("add_button_"+lingual, addButton)
-        addButton.clicked.connect(addField)
+            globals()["add_button_"+lingual] = addButton
+        addButton.clicked.connect(addButton.hide)
         if globals().get("delete_button_"+lingual) is None:
-            globals().setdefault("delete_button_"+lingual, deleteButton)
+            globals()["delete_button_"+lingual] = deleteButton
+        deleteButton.clicked.connect(deleteField)
 
     setLayerProperties(dialog, layer, feature)
     buttonBox.accepted.connect(validate)
     buttonBox.rejected.connect(myDialog.close)
-    # okButton.clicked.connect(validate)
     resetButton.clicked.connect(myDialog.resetValues)
 
 
-def test():
-    QMessageBox.information(None, "AA", "AsASAS")
-
-
 def addField():
-    QMessageBox.information(None, "myLayer", str(type(myLayer)))
-    try:
-        myLayer.setEditorWidgetSetup(7, QgsEditorWidgetSetup("TextEdit", {}))
-    except:
-        QMessageBox.information(None, "XXX", "ASAs")
+    QMessageBox.information(None, "ADD Field", "sds")
+
+
+def deleteField():
+    gridLayout.remove(None)
+    QMessageBox.information(None, "Delete Field", "asa")
 
 
 def validate():
     # Make sure that the name field isn't empty.
-    if not len(fidField.text()) > 0:
+    fid = globals()['field_fid']
+    if fid is None:
+        QMessageBox.information(None, "fid", "NONE")
+    if not len(globals()['field_fid'].text()) > 0:
         msgBox = QMessageBox()
         msgBox.setText("fid field can not be null.{}")
         msgBox.exec_()
-    elif not int(scaminField.text()) > 0:
+    elif not int(globals()['field_scamin'].text()) > 0:
         msgBox = QMessageBox()
         msgBox.setText("scamin field can not be null.")
         msgBox.exec_()
