@@ -2,8 +2,8 @@ from qgis.PyQt.QtWidgets import *
 from qgis.core import QgsEditorWidgetSetup
 from model.tools import *
 
-class_name = get_class_name()
-
+obj = obj_dict()
+lang_obj = obj['languages']
 fidField = None
 objlField = None
 scamaxField = None
@@ -31,14 +31,15 @@ def setLayerProperties(dialog, layer, feature):
     """
     fields = layer.fields()
     fieldNames = fields.names()
-    languages = all_languages()
-    for i, fieldName in enumerate(fieldNames, 0):
+    for fieldName in fieldNames:
         # 设置 field 别名
-        if i >= 4:
-            continue
-        layer.setFieldAlias(i, attribute_display(class_name, fieldName))
-        child = dialog.findChild(QLabel, "label_" + fieldName)
-        child.setText(attribute_display(class_name, fieldName))
+        field_obj = obj.get(fieldName, None)
+        if field_obj is not None:
+            child = dialog.findChild(QLabel, "label_" + fieldName)
+            child.setText(field_obj.get('display', None))
+        elif fieldName in list(lang_obj.keys()):
+            child = dialog.findChild(QLabel, "label_" + fieldName)
+            child.setText(lang_obj[fieldName].get('name', None))
 
 
 def formOpen(dialog, layer, feature):
@@ -65,11 +66,10 @@ def formOpen(dialog, layer, feature):
     objlLabel = dialog.findChild(QLabel, "label_pbjl")
     scamaxLabel = dialog.findChild(QLabel, "label_scamax")
     scaminLabel = dialog.findChild(QLabel, "label_scamin")
-    okButton = dialog.findChild(QPushButton, "okButton")
-    resetButton = dialog.findChild(QPushButton, "resetButton")
-    x = dialog.findChildren(QDialogButtonBox, "buttonBox")
-    if x is not None:
-        QMessageBox.information(None, "", "xxxxxx")
+    # okButton = dialog.findChild(QPushButton, "okButton")
+    # resetButton = dialog.findChild(QPushButton, "resetButton")
+    buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
+    resetButton = buttonBox.button(QDialogButtonBox.Reset)
     # if fidLabel is None:
     for lingual in multi_lingual:
         label = dialog.findChild(QLabel, "label_{}".format(lingual))
@@ -79,13 +79,19 @@ def formOpen(dialog, layer, feature):
             globals()[lingual+"Label"] = label
         if globals().get("add_button_"+lingual) is None:
             globals().setdefault("add_button_"+lingual, addButton)
-            # addButton.clicked.connect()
+        addButton.clicked.connect(addField)
         if globals().get("delete_button_"+lingual) is None:
             globals().setdefault("delete_button_"+lingual, deleteButton)
 
     setLayerProperties(dialog, layer, feature)
-    okButton.clicked.connect(validate)
+    buttonBox.accepted.connect(validate)
+    buttonBox.rejected.connect(myDialog.close)
+    # okButton.clicked.connect(validate)
     resetButton.clicked.connect(myDialog.resetValues)
+
+
+def test():
+    QMessageBox.information(None, "AA", "AsASAS")
 
 
 def addField():

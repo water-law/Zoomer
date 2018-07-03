@@ -19,7 +19,7 @@ email                : onoma@in.gr
 # Import the PyQt and QGIS libraries
 import os
 from PyQt5.QtGui import *
-from PyQt5.QtWidgets import QAction, QLabel
+from PyQt5.QtWidgets import QAction, QMessageBox
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 # Import the code for the dialog
@@ -52,39 +52,36 @@ class Zoomer(object):
     # run method that performs all the real work
     def run(self):
         uri = QgsDataSourceUri()
-        uri.setConnection("localhost", "5432", "place", "postgres", "postgres")
-        uri.setDataSource("public", "objnam", "geom")
+        dbConfig = db_config()
+        connection = tuple(dbConfig['connection'].values())
+        datasource = tuple(dbConfig['datasource'].values())
+        uri.setConnection(*connection)
+        uri.setDataSource(*datasource)
         vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
         fields = vlayer.fields()
         fieldNames = fields.names()
-        languages = all_languages()
-        for i, fieldName in enumerate(fieldNames, 0):
+        obj = obj_dict()
+        lang_obj = obj['languages']
+        for fieldName in fieldNames:
+            i = fields.indexFromName(fieldName)
             # 设置 field 别名
-            vlayer.setFieldAlias(i, attribute_display('objnam', fieldName))
-            if fieldName == 'fid':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
-            elif fieldName == 'objl':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
-                # 设置默认值
-                vlayer.setDefaultValueDefinition(i, QgsDefaultValue('1', True))
-            elif fieldName == 'scamax':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
-                vlayer.setDefaultValueDefinition(i, QgsDefaultValue('25000000', True))
-            elif fieldName == 'scamin':
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
-                vlayer.setDefaultValueDefinition(i, QgsDefaultValue('1', True))
-            elif fieldName == 'en_us':
-                vlayer.setFieldAlias(i, languages['en-US'])
+            field_obj = obj.get(fieldName, None)
+            if field_obj is not None:
+                vlayer.setFieldAlias(i, field_obj.get('display', None))
+                type = field_obj.get('type')
+                if type == 'Integer':
+                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
+                    vlayer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
+                elif type == 'Enumeration':
+                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
+                else:
+                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+            elif fieldName in list(lang_obj.keys()):
+                vlayer.setFieldAlias(i, lang_obj[fieldName].get('name', None))
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-                vlayer.setDefaultValueDefinition(i, QgsDefaultValue("11", True))
-            elif fieldName == 'zh_chs':
-                vlayer.setFieldAlias(i, languages['zh-CHS'])
+            else:
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-                # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Hidden", {}))
-                # vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-                vlayer.setDefaultValueDefinition(i, QgsDefaultValue('None', True))
         formConfig = vlayer.editFormConfig()
-        formConfig.setReadOnly(1, False)
         formConfig.setUiForm('./attributeform/Attribute_Form.ui')
         # 设置 python 脚本使用方式
         formConfig.setInitCodeSource(QgsEditFormConfig.CodeSourceFile)

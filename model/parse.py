@@ -6,10 +6,11 @@ with open("lang.xml", "w") as f:
     for row in csv_reader:
         data = row[0].split('\t')
         content = """
-        <language country="{}">
+        <language acronym="{}">
+              <country>{}</country>
               <name>{}</name>
               <code>{}</code>
             </language>
-        """.format(data[0], data[1], data[2])
+        """.format(data[0].lower().replace('-', '_'), data[0], data[1], data[2])
         f.writelines(content)
 

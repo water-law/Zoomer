@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>450</width>
     <height>300</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <number>30</number>
    </property>
    <property name="topMargin">
-    <number>20</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
     <number>20</number>
@@ -27,66 +27,8 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_fid">
-         <property name="text">
-          <string>fid</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QSpinBox" name="fid"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_objl">
-         <property name="text">
-          <string>objl</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="objl"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_scamax">
-         <property name="text">
-          <string>scamax</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="scamax"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_scamin">
-         <property name="text">
-          <string>scamin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QSpinBox" name="scamin"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_zh_chs">
-         <property name="text">
-          <string>zh_chs</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QPushButton" name="delete_button_zh_chs">
-         <property name="text">
-          <string>-</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_en_us">
-         <property name="text">
-          <string>en_us</string>
-         </property>
-        </widget>
        </item>
        <item row="5" column="1">
         <widget class="QLineEdit" name="en_us"/>
@@ -105,8 +47,42 @@
          </property>
         </widget>
        </item>
+       <item row="4" column="4">
+        <widget class="QPushButton" name="delete_button_zh_chs">
+         <property name="text">
+          <string>-</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="scamax"/>
+       </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="zh_chs"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_zh_chs">
+         <property name="text">
+          <string>zh_chs</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_objl">
+         <property name="text">
+          <string>objl</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="scamin"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_scamin">
+         <property name="text">
+          <string>scamin</string>
+         </property>
+        </widget>
        </item>
        <item row="4" column="2">
         <widget class="QPushButton" name="add_button_zh_chs">
@@ -115,21 +91,38 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_fid">
+         <property name="text">
+          <string>fid</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_scamax">
+         <property name="text">
+          <string>scamax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="objl"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_en_us">
+         <property name="text">
+          <string>en_us</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="okButton">
-         <property name="text">
-          <string>OK</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="resetButton">
-         <property name="text">
-          <string>Reset</string>
+        <widget class="QDialogButtonBox" name="buttonBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
          </property>
         </widget>
        </item>
