@@ -17,7 +17,6 @@ email                : onoma@in.gr
  ***************************************************************************/
 """
 # Import the PyQt and QGIS libraries
-import os
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QAction, QMessageBox
 from qgis.core import *
@@ -58,20 +57,26 @@ class Zoomer(object):
         uri.setConnection(*connection)
         uri.setDataSource(*datasource)
         vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
+        formConfig = vlayer.editFormConfig()
         fields = vlayer.fields()
         fieldNames = fields.names()
         obj = obj_dict()
         lang_obj = obj['languages']
         for fieldName in fieldNames:
             i = fields.indexFromName(fieldName)
-            # 设置 field 别名
             field_obj = obj.get(fieldName, None)
             if field_obj is not None:
+                # 设置 field 别名
                 vlayer.setFieldAlias(i, field_obj.get('display', None))
                 type = field_obj.get('type')
                 if type == 'Integer':
                     vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
-                    vlayer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
+                    if fieldName == 'fid':
+                        formConfig.setReadOnly(i, True)
+                        # 设置默认值仅对新建要素时有效
+                        vlayer.setDefaultValueDefinition(i, QgsDefaultValue('-1', False))
+                    else:
+                        vlayer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
                 elif type == 'Enumeration':
                     vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
                 else:
@@ -81,7 +86,7 @@ class Zoomer(object):
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
             else:
                 vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
-        formConfig = vlayer.editFormConfig()
+
         formConfig.setUiForm('./attributeform/Attribute_Form.ui')
         # 设置 python 脚本使用方式
         formConfig.setInitCodeSource(QgsEditFormConfig.CodeSourceFile)

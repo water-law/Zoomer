@@ -1,4 +1,5 @@
 from qgis.PyQt.QtWidgets import *
+from qgis.PyQt.QtGui import QIcon
 from model.tools import *
 
 obj = obj_dict()
@@ -10,9 +11,11 @@ field_scamin = None
 field_zh_chs = None
 field_en_us = None
 
-myDialog = None
+myForm = None
 myLayer = None
 gridLayout = None
+myDialog = None
+newFieldDialog = None
 
 label_fid = None
 label_objl = None
@@ -24,34 +27,98 @@ label_en_us = None
 multi_lingual = ["zh_chs", "en_us"]
 
 
+class AddFieldDialog(QDialog):
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Add a New Country Language Support')
+        self.initUI()
+
+    def initUI(self):
+        # QPushButton(const QIcon & icon, const QString & text, QWidget * parent = Q_NULLPTR)
+        okbutton = QPushButton('OK')
+        cancelbutton = QPushButton('Cancel')
+        okbutton.clicked.connect(self.addField)
+        cancelbutton.clicked.connect(self.close)
+
+        hbox = QHBoxLayout()
+        hbox.addStretch()
+        hbox.addWidget(okbutton)
+        hbox.addWidget(cancelbutton)
+
+        langLabel = QLabel('choose language')
+        langbutton = QComboBox()
+        langbutton.setObjectName("lang")
+        language_list = list(lang_obj.keys())
+        target_list = []
+        for lang in language_list:
+            if globals().get("field_" + lang, None) is None:
+                target_list.append(lang)
+        langbutton.addItems(target_list)
+
+        gbox = QGridLayout()
+        gbox.addWidget(langLabel, 1, 0)
+        gbox.addWidget(langbutton, 1, 1)
+
+        vbox = QVBoxLayout()
+        vbox.setObjectName("base")
+        vbox.addStretch()
+        vbox.addLayout(gbox)
+        vbox.addLayout(hbox)
+
+        self.setLayout(vbox)
+
+    def unload(self):
+        newFieldDialog = None
+        self.close()
+
+    def addField(self):
+        current_rows = gridLayout.rowCount()
+        langbutton = self.findChild(QComboBox, "lang")
+        text = langbutton.itemText(langbutton.currentIndex())
+        label = QLabel()
+        label.setText(text)
+        gridLayout.addWidget(label, current_rows + 1, 0)
+        lineEdit = QLineEdit()
+        gridLayout.addWidget(lineEdit, current_rows + 1, 1)
+        addButton = QPushButton(QIcon("E:/projects/Zoomer/plus.png"), "", self)
+        gridLayout.addWidget(addButton, current_rows + 1, 2)
+        deleteButton = QPushButton(QIcon("E:/projects/Zoomer/delete.png"), "", self)
+        gridLayout.addWidget(deleteButton, current_rows + 1, 3)
+        newFieldDialog = None
+        self.close()
+
+
 def setLayerProperties(dialog, layer, feature):
     """
     设置 field 是否可编辑只需在 ui 文件中关联控件的可编辑属性
     在 Label 中指定标签名字
     """
     fields = layer.fields()
-    fieldNames = fields.names()
-    for fieldName in fieldNames:
-        # 设置 field 别名
+    for field in fields:
+        fieldName = field.name()
+        displayName = field.displayName()
         field_obj = obj.get(fieldName, None)
         if field_obj is not None:
             child = dialog.findChild(QLabel, "label_" + fieldName)
-            child.setText(field_obj.get('display', None))
+            child.setText(displayName)
         elif fieldName in list(lang_obj.keys()):
             child = dialog.findChild(QLabel, "label_" + fieldName)
-            child.setText(lang_obj[fieldName].get('name', None))
+            child.setText(displayName)
 
 
 def formOpen(dialog, layer, feature):
     # dialog is an instance of class qgis.gui.QgsAttributeForm
-    global myDialog
+    global myForm
     global myLayer
-    myDialog = dialog
+    myForm = dialog
     myLayer = layer
     type_mapping = {"Integer": QSpinBox, "Enumeration": QComboBox, "TextEdit": QLineEdit, "Default": QLineEdit}
     global okButton
     global resetButton
     global gridLayout
+    global myDialog
+    myDialog = dialog.findChild(QDialog, "Dialog")
     gridLayout = dialog.findChild(QGridLayout, "gridLayout")
     obj_fields = list(obj.keys())
     for field in obj_fields:
@@ -66,8 +133,8 @@ def formOpen(dialog, layer, feature):
                 if globals().get("label_" + field) is None:
                     globals()["label_" + field] = dialog.findChild(QLabel, "label_" + field)
         elif globals().get("field_" + field) is None:
-            type = obj.get(field).get('type')
-            componentType = type_mapping.get(type, type_mapping['Default'])
+            component_type = obj.get(field).get('type')
+            componentType = type_mapping.get(component_type, type_mapping['Default'])
             globals()["field_" + field] = dialog.findChild(componentType, field)
             if globals().get("label_" + field) is None:
                 globals()["label_" + field] = dialog.findChild(QLabel, "label_"+field)
@@ -81,39 +148,45 @@ def formOpen(dialog, layer, feature):
             globals()["label_" + lingual] = label
         if globals().get("add_button_"+lingual) is None:
             globals()["add_button_"+lingual] = addButton
-        addButton.clicked.connect(addButton.hide)
+        addButton.clicked.connect(addFieldDialog)
         if globals().get("delete_button_"+lingual) is None:
             globals()["delete_button_"+lingual] = deleteButton
-        deleteButton.clicked.connect(deleteField)
+        # ls = dir(gridLayout)
+        # for i in ls:
+        #     QMessageBox.information(None, "ADD Field", i)
+        # deleteButton.clicked.connect("rer")
 
     setLayerProperties(dialog, layer, feature)
     buttonBox.accepted.connect(validate)
-    buttonBox.rejected.connect(myDialog.close)
-    resetButton.clicked.connect(myDialog.resetValues)
+    buttonBox.rejected.connect(myForm.close)
+    resetButton.clicked.connect(myForm.resetValues)
 
 
-def addField():
-    QMessageBox.information(None, "ADD Field", "sds")
+def addFieldDialog():
+    global newFieldDialog
+    newFieldDialog = AddFieldDialog()
+    newFieldDialog.show()
 
 
-def deleteField():
-    gridLayout.remove(None)
-    QMessageBox.information(None, "Delete Field", "asa")
+def deleteField(s):
+    # gridLayout.removeWidget(deleteButton)
+    QMessageBox.information(None, "Delete Field", s)
 
 
 def validate():
     # Make sure that the name field isn't empty.
-    fid = globals()['field_fid']
-    if fid is None:
-        QMessageBox.information(None, "fid", "NONE")
-    if not len(globals()['field_fid'].text()) > 0:
-        msgBox = QMessageBox()
-        msgBox.setText("fid field can not be null.{}")
-        msgBox.exec_()
-    elif not int(globals()['field_scamin'].text()) > 0:
-        msgBox = QMessageBox()
-        msgBox.setText("scamin field can not be null.")
-        msgBox.exec_()
-    else:
-        pass
+    for key in globals().keys():
+        if key.startswith("field_"):
+            if key[6:] in multi_lingual:
+                QMessageBox.information(None, key, key[6:])
+    # if not len(globals()['field_fid'].text()) > 0:
+    #     msgBox = QMessageBox()
+    #     msgBox.setText("fid field can not be null.{}")
+    #     msgBox.exec_()
+    # elif not int(globals()['field_scamin'].text()) > 0:
+    #     msgBox = QMessageBox()
+    #     msgBox.setText("scamin field can not be null.")
+    #     msgBox.exec_()
+    # else:
+    #     pass
 
