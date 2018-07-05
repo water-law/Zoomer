@@ -68,8 +68,8 @@ class Zoomer(object):
             if field_obj is not None:
                 # 设置 field 别名
                 vlayer.setFieldAlias(i, field_obj.get('display', None))
-                type = field_obj.get('type')
-                if type == 'Integer':
+                field_type = field_obj.get('type')
+                if field_type == 'Integer':
                     vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
                     if fieldName == 'fid':
                         formConfig.setReadOnly(i, True)
@@ -77,7 +77,7 @@ class Zoomer(object):
                         vlayer.setDefaultValueDefinition(i, QgsDefaultValue('-1', False))
                     else:
                         vlayer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
-                elif type == 'Enumeration':
+                elif field_type == 'Enumeration':
                     vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
                 else:
                     vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))

@@ -69,7 +69,7 @@ def obj_dict():
 
 
 d = obj_dict()
-print(d)
+# print(d)
 
 
-print(d.keys())
+# print(d.keys())
