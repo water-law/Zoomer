@@ -29,7 +29,7 @@ def base_dict():
                                     enum_dict = {}
                                     for x in xx:
                                         enum_dict.setdefault(x.tag, x.text)
-                                        values.append(enum_dict)
+                                    values.append(enum_dict)
                                 attr_value.setdefault(ssson.tag, values)
                             else:
                                 attr_value.setdefault(ssson.tag, ssson.text)
@@ -69,7 +69,6 @@ def obj_dict():
 
 
 d = obj_dict()
-# print(d)
 
 
 # print(d.keys())
