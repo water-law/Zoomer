@@ -57,6 +57,7 @@ class Zoomer(object):
         uri.setConnection(*connection)
         uri.setDataSource(*datasource)
         vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
+        # return
         formConfig = vlayer.editFormConfig()
         fields = vlayer.fields()
         fieldNames = fields.names()
