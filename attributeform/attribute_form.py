@@ -4,6 +4,7 @@ from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtCore import *
 from qgis.gui import QgsAttributeForm
 from model.tools import *
+_translate = QCoreApplication.translate
 
 obj = obj_dict()
 print(obj)
@@ -31,26 +32,34 @@ class MyWidget(QWidget):
         for field in fields:
             fieldName = field.name()
             displayName = field.displayName()
-            attrs = myFeature.attributes()
-            if len(attrs) == 0:
+            attributes = myFeature.attributes()
+            if len(attributes) == 0:
                 myLayer.deleteFeature(myFeature.id())
-                # id 为 0 的 feature: 原因待排查
+                # FIXME: id 为 0 的 feature: 原因待排查
                 break
             # FIXME: 对于 defaultValue 还需再进行仔细的检测
             defaultValue = myFeature.attribute(fieldName)
-            label = QLabel(displayName)
-            label.setObjectName("label_" + fieldName)
-            tp = field.typeName()
-            gbox.addWidget(label, row, 0)
-            if tp == 'int4':
+            typeName = field.typeName()
+            # QMessageBox.information(self, fieldName, str(type(defaultValue)))
+            if typeName == 'int4':
+                label = QLabel(displayName)
+                label.setObjectName("label_" + fieldName)
+                gbox.addWidget(label, row, 0)
                 f = QSpinBox()
                 if fieldName == 'fid':
                     f.setEnabled(False)
                 try:
                     f.setValue(defaultValue)
-                except:
+                except TypeError:
+                    # FIXME: 默认值是否应配置到字典中， 字典中还应包含控件类型和自定义控件类型和数据库类型及其默认值
+                    # 字典中还需包括数据库类型信息表明是 PostGIS 还是 SQLite
                     f.setValue(0)
-            elif tp == 'objl_type':
+                f.setObjectName(fieldName)
+                gbox.addWidget(f, row, 1)
+            elif typeName == 'objl_type':
+                label = QLabel(displayName)
+                label.setObjectName("label_" + fieldName)
+                gbox.addWidget(label, row, 0)
                 f = QComboBox()
                 enums = list()
                 for x in obj['objl']['enums']:
@@ -58,34 +67,67 @@ class MyWidget(QWidget):
                 f.addItems(enums)
                 if defaultValue in enums:
                     f.setCurrentText(defaultValue)
-            else:
+                f.setObjectName(fieldName)
+                gbox.addWidget(f, row, 1)
+            elif fieldName in ['zh_chs', 'en_us']:
+                # 默认显示中英文
+                label = QLabel(displayName)
+                label.setObjectName("label_" + fieldName)
+                gbox.addWidget(label, row, 0)
                 f = QLineEdit()
-                f.setText("NULL")
-            f.setObjectName(fieldName)
-            gbox.addWidget(f, row, 1)
-            if fieldName in list(lang_obj.keys()):
+                try:
+                    # 中英文被置为""或者NULL
+                    f.setText(defaultValue)
+                except TypeError:
+                    f.setText("NULL")
+                f.setObjectName(fieldName)
+                gbox.addWidget(f, row, 1)
                 multi_lingual.append(fieldName)
-                deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'delete.png')), "", self)
+                deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'image/delete.png')), "", self)
+                deleteButton.setObjectName('delete_button_' + fieldName)
+                deleteButton.clicked.connect(self.deleteField)
+                gbox.addWidget(deleteButton, row, 2)
+            elif fieldName in list(lang_obj.keys()):
+                # 如果字段值为空("")则忽略该语言
+                if defaultValue is None:
+                    # 数据库中还未有此列
+                    continue
+                elif defaultValue == "":
+                    # "" 屏蔽某个语言
+                    continue
+                label = QLabel(displayName)
+                label.setObjectName("label_" + fieldName)
+                gbox.addWidget(label, row, 0)
+                f = QLineEdit()
+                f.setText(defaultValue)
+                f.setObjectName(fieldName)
+                gbox.addWidget(f, row, 1)
+                multi_lingual.append(fieldName)
+                deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'image/delete.png')), "", self)
                 deleteButton.setObjectName('delete_button_' + fieldName)
                 deleteButton.clicked.connect(self.deleteField)
                 gbox.addWidget(deleteButton, row, 2)
             else:
-                pass
-                # spacer = QSpacerItem(5, 15, QSizePolicy.Fixed, QSizePolicy.Fixed)
-                # gbox.addItem(spacer, row, 2)
+                label = QLabel(displayName)
+                label.setObjectName("label_" + fieldName)
+                gbox.addWidget(label, row, 0)
+                f = QLineEdit()
+                f.setText("NULL")
+                f.setObjectName(fieldName)
+                gbox.addWidget(f, row, 1)
             row += 1
 
         hbox = QHBoxLayout()
         hbox.addStretch()
 
-        okbutton = QPushButton('OK', self)
-        cancelbutton = QPushButton('Cancel', self)
-        okbutton.clicked.connect(self.validate)
-        cancelbutton.clicked.connect(myForm.close)
-        hbox.addWidget(okbutton)
-        hbox.addWidget(cancelbutton)
+        okButton = QPushButton('OK', self)
+        cancelButton = QPushButton('Cancel', self)
+        okButton.clicked.connect(self.validate)
+        cancelButton.clicked.connect(myForm.close)
+        hbox.addWidget(okButton)
+        hbox.addWidget(cancelButton)
 
-        addButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'plus.png')), "", self)
+        addButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'image/plus.png')), "", self)
         addButton.setObjectName('add_button_' + fieldName)
         addButton.clicked.connect(self.tipDialog)
         gbox2 = QGridLayout()
@@ -102,7 +144,7 @@ class MyWidget(QWidget):
         QMessageBox.information(self, "", "AA")
 
     def tipDialog(self):
-        d = AddFieldDialog(self)
+        d = AddLanguageDialog(self)
         d.show()
 
     def deleteField(self):
@@ -130,10 +172,10 @@ def formOpen(dialog, layer, feature):
     global myLayer
     global myFeature
     myForm = dialog.parent()
-    # QgsAttributeForm
+    # QgsAttributeForm.AddFeatureMode
     mode = dialog.mode()
-    QMessageBox.information(dialog, "dialog", str(mode))
     if myForm is not None:
+        # QMessageBox.information(dialog, "dialog", str(mode))
         # 非属性表单模式, 属性表单模式的dialog.parent() 没有 layout
         # TODO: 区分 QgsAttributeForm 的各种模式
         childs = myForm.findChildren(QWidget)
@@ -147,20 +189,18 @@ def formOpen(dialog, layer, feature):
         #     QMessageBox.information(None, x.objectName(), str(type(x)))
         # for x in attrs:
         # dialog is an instance of class qgis.gui.QgsAttributeForm
-        # handler=MyEventHandler(dialog);
         # dialog.button.connect(handle.OnAddLanguage, cliced)
         myDialog = dialog.findChild(QDialog, "Dialog")
         buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
-        # buttonBox.accepted.connect(validate)
-        # buttonBox.rejected.connect(dialog.close)
         layout = dialog.layout()
         myWidget = MyWidget(myDialog)
         layout.addWidget(myWidget)
     else:
+        QMessageBox.information(dialog, "dialog", dialog.objectName())
         QMessageBox.information(None, "myForm is None", "NNN")
 
 
-class AddFieldDialog(QDialog):
+class AddLanguageDialog(QDialog):
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -168,16 +208,17 @@ class AddFieldDialog(QDialog):
         self.initUI()
 
     def initUI(self):
+        self.setWindowTitle(_translate('attr_form', 'Title'))
         # QPushButton(const QIcon & icon, const QString & text, QWidget * parent = Q_NULLPTR)
-        okbutton = QPushButton('OK')
-        cancelbutton = QPushButton('Cancel')
-        okbutton.clicked.connect(self.addField)
-        cancelbutton.clicked.connect(self.close)
+        okButton = QPushButton('OK')
+        cancelButton = QPushButton('Cancel')
+        okButton.clicked.connect(self.addField)
+        cancelButton.clicked.connect(self.close)
 
         hbox = QHBoxLayout()
         hbox.addStretch()
-        hbox.addWidget(okbutton)
-        hbox.addWidget(cancelbutton)
+        hbox.addWidget(okButton)
+        hbox.addWidget(cancelButton)
 
         langLabel = QLabel('choose language')
         langbutton = QComboBox()
@@ -202,8 +243,8 @@ class AddFieldDialog(QDialog):
 
     def addField(self):
         parent = self.parent()
-        pgbox = parent.findChild(QGridLayout, "grid")
-        row = pgbox.rowCount() + 1
+        gbox = parent.findChild(QGridLayout, "grid")
+        row = gbox.rowCount() + 1
         langbutton = self.findChild(QComboBox, "lang")
         text = langbutton.itemText(langbutton.currentIndex())
         for k, v in lang_obj.items():
@@ -215,12 +256,12 @@ class AddFieldDialog(QDialog):
         f = QLineEdit(parent)
         f.setText("NULL")
         f.setObjectName(fieldName)
-        deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'delete.png')), "", parent)
+        deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'image/delete.png')), "", parent)
         deleteButton.setObjectName('delete_button_'+fieldName)
         deleteButton.clicked.connect(parent.deleteField)
-        pgbox.addWidget(label, row, 0)
-        pgbox.addWidget(f, row, 1)
-        pgbox.addWidget(deleteButton, row, 2)
+        gbox.addWidget(label, row, 0)
+        gbox.addWidget(f, row, 1)
+        gbox.addWidget(deleteButton, row, 2)
         if fieldName not in multi_lingual:
             multi_lingual.append(fieldName)
         self.close()

@@ -17,6 +17,8 @@ email                : onoma@in.gr
  ***************************************************************************/
  This script initializes the plugin, making it known to QGIS.
 """
+from qgis.PyQt.QtCore import QTranslator
+from qgis.PyQt.QtWidgets import QApplication, QMessageBox
 
 
 def name():
@@ -38,4 +40,10 @@ def qgisMinimumVersion():
 def classFactory(iface):
     # load Zoomer class from file Zoomer
     from .Zoomer import Zoomer
+    trans = QTranslator()
+    b = trans.load("zh_CN")
+    if b:
+        QMessageBox.information(None, "", "FFFF")
+    app = QApplication.instance()
+    app.installTranslator(trans)
     return Zoomer(iface)
