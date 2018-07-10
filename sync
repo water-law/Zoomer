@@ -14,7 +14,16 @@ source = b''
 
 excludes = [
     ".idea",
-    ".git"
+    ".git",
+    ".svn",
+    "*.pyc",
+    "qgs",
+    "__pycache__/*",
+    "README.md",
+    "Makefile",
+    "sync",
+    "trans.bat",
+    "LICENSE"
 ]
 
 
@@ -38,7 +47,7 @@ with open(os.path.join(BASE_DIR, "metadata.txt"), "r") as f:
 if os.path.exists(TARGET_PLUGIN_DIR):
     shutil.rmtree(TARGET_PLUGIN_DIR)
 
-shutil.copytree(os.getcwd(), "{}".format(TARGET_PLUGIN_DIR), False, shutil.ignore_patterns(".git"))
+shutil.copytree(os.getcwd(), "{}".format(TARGET_PLUGIN_DIR), False, shutil.ignore_patterns(*excludes))
 
 qgs = subprocess.Popen(['taskkill', '/F', '/IM', 'qgis-bin.exe'], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
 out, err = qgs.communicate()
