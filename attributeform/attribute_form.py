@@ -187,7 +187,7 @@ def formOpen(dialog, layer, feature):
         # TODO: 区分 QgsAttributeForm 的各种模式
         childs = myForm.findChildren(QWidget)
         # QMessageBox.information(None, myForm.objectName(), str(type(myForm)))
-        ly = myForm.layout()
+        # ly = myForm.layout()
         # QMessageBox.information(None, ly.objectName(), str(type(ly)))
         myLayer = layer
         myFeature = feature
@@ -200,11 +200,20 @@ def formOpen(dialog, layer, feature):
         myDialog = dialog.findChild(QDialog, "Dialog")
         buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
         layout = dialog.layout()
+        # try:
+        #     layout.removeWidget(buttonBox)
+        #     sip.delete(buttonBox)
+        # except RuntimeError:
+        #     QMessageBox.information(dialog, "RuntimeError", traceback.format_exc())
+        # except Exception:
+        #     QMessageBox.information(dialog, "Unknown Exception", traceback.format_exc())
+        dialog.disconnectButtonBox()
+        dialog.hideButtonBox()
         myWidget = MyWidget(myDialog)
         layout.addWidget(myWidget)
     else:
         QMessageBox.information(dialog, "dialog", dialog.objectName())
-        QMessageBox.information(None, "myForm is None", "NNN")
+        QMessageBox.information(dialog, "myForm is None", "NNN")
 
 
 class AddLanguageDialog(QDialog):
