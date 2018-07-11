@@ -151,12 +151,17 @@ class MyWidget(QWidget):
             typeName = field.typeName()
             if typeName == "int4":
                 child = self.findChild(QSpinBox, fieldName)
+                value = child.value()
+                if value < 0:
+                    QMessageBox.information(self, "field validate error", "{} 不能小于 0".format(fieldName))
             elif typeName == "objl_type":
                 child = self.findChild(QComboBox, fieldName)
+                value = child.itemText(child.currentIndex())
+                # 可能需要判定该语言列是否在合法语言中
             else:
                 child = self.findChild(QLineEdit, fieldName)
-
-        # QMessageBox.information(self, "", "AA")
+                value = child.text()
+                QMessageBox.information(self, fieldName, value)
 
     def tipDialog(self):
         d = AddLanguageDialog(self)
