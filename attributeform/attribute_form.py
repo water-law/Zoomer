@@ -219,7 +219,7 @@ class AddLanguageDialog(QDialog):
         # QPushButton(const QIcon & icon, const QString & text, QWidget * parent = Q_NULLPTR)
         okButton = QPushButton('OK')
         cancelButton = QPushButton('Cancel')
-        okButton.clicked.connect(self.addField)
+        okButton.clicked.connect(self.addLanguageField)
         cancelButton.clicked.connect(self.close)
 
         hbox = QHBoxLayout()
@@ -248,7 +248,7 @@ class AddLanguageDialog(QDialog):
 
         self.setLayout(vbox)
 
-    def addField(self):
+    def addLanguageField(self):
         parent = self.parent()
         gbox = parent.findChild(QGridLayout, "grid_attribute_form")
         row = gbox.rowCount() + 1
@@ -258,13 +258,20 @@ class AddLanguageDialog(QDialog):
             if v['name'] == text:
                 fieldName = k
                 break
-        label = QLabel(lang_obj[fieldName]['name'], parent)
+        try:
+            fields = myLayer.fields()
+            field = fields.field(fieldName)
+            displayName = field.displayName()
+        except KeyError:
+            # 数据库中未有该语言列
+            displayName = lang_obj[fieldName]['name']
+        label = QLabel(displayName, parent)
         label.setObjectName("label_" + fieldName)
         f = QLineEdit(parent)
-        defaultValue = myFeature.attribute(fieldName)
         try:
+            defaultValue = myFeature.attribute(fieldName)
             f.setText(defaultValue)
-        except TypeError:
+        except (KeyError, TypeError):
             f.setText("NULL")
         f.setObjectName(fieldName)
         deleteButton = QPushButton(QIcon(os.path.join(os.getcwd(), 'image/delete.png')), "", parent)

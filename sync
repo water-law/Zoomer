@@ -42,7 +42,6 @@ with open(os.path.join(BASE_DIR, "metadata.txt"), "r") as f:
             name_match = re.findall(r'name=(/w+)*', f.readline().strip())
             if name_match:
                 PLUGIN_NAME = name_match[0]
-                TARGET_PLUGIN_DIR = QGIS_PLUGIN_DIR + PLUGIN_NAME
                 break
     f.close()
 
