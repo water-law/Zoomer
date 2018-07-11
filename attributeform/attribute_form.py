@@ -126,7 +126,8 @@ class MyWidget(QWidget):
         okButton = QPushButton('OK', self)
         cancelButton = QPushButton('Cancel', self)
         okButton.clicked.connect(self.validate)
-        cancelButton.clicked.connect(myForm.close)
+        cancelButton.clicked.connect(myForm.resetValues)
+        cancelButton.clicked.connect(BaseDialog.close)
         hbox.addWidget(okButton)
         hbox.addWidget(cancelButton)
 
@@ -144,7 +145,18 @@ class MyWidget(QWidget):
         vbox.addLayout(hbox)
 
     def validate(self):
-        QMessageBox.information(self, "", "AA")
+        fields = myLayer.fields()
+        for field in fields:
+            fieldName = field.name()
+            typeName = field.typeName()
+            if typeName == "int4":
+                child = self.findChild(QSpinBox, fieldName)
+            elif typeName == "objl_type":
+                child = self.findChild(QComboBox, fieldName)
+            else:
+                child = self.findChild(QLineEdit, fieldName)
+
+        # QMessageBox.information(self, "", "AA")
 
     def tipDialog(self):
         d = AddLanguageDialog(self)
@@ -175,30 +187,25 @@ class MyWidget(QWidget):
 
 def formOpen(dialog, layer, feature):
     # TODO: 移除 dialog 默认布局
+    global BaseDialog
     global myForm
     global myLayer
     global myFeature
-    myForm = dialog.parent()
+    BaseDialog = dialog.parent()
+    myForm = dialog
+    myLayer = layer
+    myFeature = feature
     # QgsAttributeForm.AddFeatureMode
     mode = dialog.mode()
-    if myForm is not None:
-        # QMessageBox.information(dialog, "dialog", str(mode))
+    if BaseDialog is not None:
         # 非属性表单模式, 属性表单模式的dialog.parent() 没有 layout
         # TODO: 区分 QgsAttributeForm 的各种模式
-        childs = myForm.findChildren(QWidget)
-        # QMessageBox.information(None, myForm.objectName(), str(type(myForm)))
+        childs = BaseDialog.findChildren(QLayout)
         # ly = myForm.layout()
         # QMessageBox.information(None, ly.objectName(), str(type(ly)))
-        myLayer = layer
-        myFeature = feature
-        attrs = feature.attributes()
-        # for x in childs:
-        #     QMessageBox.information(None, x.objectName(), str(type(x)))
-        # for x in attrs:
-        # dialog is an instance of class qgis.gui.QgsAttributeForm
-        # dialog.button.connect(handle.OnAddLanguage, cliced)
+        for x in childs:
+            QMessageBox.information(None, x.objectName(), str(type(x)))
         myDialog = dialog.findChild(QDialog, "Dialog")
-        buttonBox = dialog.findChild(QDialogButtonBox, "buttonBox")
         layout = dialog.layout()
         # try:
         #     layout.removeWidget(buttonBox)
@@ -211,9 +218,6 @@ def formOpen(dialog, layer, feature):
         dialog.hideButtonBox()
         myWidget = MyWidget(myDialog)
         layout.addWidget(myWidget)
-    else:
-        QMessageBox.information(dialog, "dialog", dialog.objectName())
-        QMessageBox.information(dialog, "myForm is None", "NNN")
 
 
 class AddLanguageDialog(QDialog):

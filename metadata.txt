@@ -15,9 +15,9 @@ qgisMaximumVersion=3.99
 
 changelog=3.0.3 2018-02-23: Redesign of UI to allow better editing prior to generation.
 
-homepage=https://github.com/water-law/Zoomer
-tracker=https://github.com/water-law/Zoomer/issues
-repository=https://github.com/water-law/Zoomer
+homepage=https://192.168.1.253/svn/QGIS/Zoomer
+tracker=https://192.168.1.253/svn/QGIS/Zoomer/issues
+repository=https://192.168.1.253/svn/QGIS/Zoomer
 tags=development
 icon=icon.png
 
@@ -25,4 +25,4 @@ experimental=False
 deprecated=False
 
 author=Water Law
-email=water_law@163.com
+email=jianping.zhang@xinuo.com
