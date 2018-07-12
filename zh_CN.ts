@@ -12,7 +12,7 @@
 <context>
     <name>attr_form</name>
     <message>
-        <location filename="attributeform/attribute_form.py" line="23"/>
+        <location filename="attributeform/attribute_form.py" line="236"/>
         <source>Title</source>
         <translation>标题</translation>
     </message>

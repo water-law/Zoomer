@@ -18,7 +18,7 @@ excludes = [
     ".svn",
     "*.pyc",
     "issues",
-    "qgs",
+    "document",
     "__pycache__/*",
     "README.md",
     "Makefile",

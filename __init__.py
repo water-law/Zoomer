@@ -40,10 +40,8 @@ def qgisMinimumVersion():
 def classFactory(iface):
     # load Zoomer class from file Zoomer
     from .Zoomer import Zoomer
-    trans = QTranslator()
-    b = trans.load("zh_CN")
-    if b:
-        QMessageBox.information(None, "", "FFFF")
+    translator = QTranslator()
+    translator.load("zh_CN")
     app = QApplication.instance()
-    app.installTranslator(trans)
+    app.installTranslator(translator)
     return Zoomer(iface)
