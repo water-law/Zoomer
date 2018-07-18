@@ -128,7 +128,7 @@ class MyWidget(QWidget):
         cancelButton = QPushButton('Cancel', self)
         okButton.clicked.connect(self.validate)
         cancelButton.clicked.connect(myForm.resetValues)
-        cancelButton.clicked.connect(BaseDialog.close)
+        cancelButton.clicked.connect(baseDialog.close)
         hbox.addWidget(okButton)
         hbox.addWidget(cancelButton)
 
@@ -193,24 +193,25 @@ class MyWidget(QWidget):
 
 def formOpen(dialog, layer, feature):
     # TODO: 移除 dialog 默认布局
-    global BaseDialog
+    global baseDialog
     global myForm
     global myLayer
     global myFeature
-    BaseDialog = dialog.parent()
+    baseDialog = dialog.parent()
+    QMessageBox.information(None, "parent is {}".format(baseDialog.objectName()), baseDialog.objectName())
     myForm = dialog
     myLayer = layer
     myFeature = feature
     # QgsAttributeForm.AddFeatureMode
     mode = dialog.mode()
-    if BaseDialog is not None:
+    if baseDialog is not None:
         # 非属性表单模式, 属性表单模式的dialog.parent() 没有 layout
         # TODO: 区分 QgsAttributeForm 的各种模式
-        childs = BaseDialog.findChildren(QLayout)
+        childs = baseDialog.findChildren(QLayout)
         # ly = myForm.layout()
         # QMessageBox.information(None, ly.objectName(), str(type(ly)))
-        for x in childs:
-            QMessageBox.information(None, x.objectName(), str(type(x)))
+        # for child in childs:
+        #     QMessageBox.information(dialog, child.objectName(), str(type(child)))
         myDialog = dialog.findChild(QDialog, "Dialog")
         layout = dialog.layout()
         # try:

@@ -56,10 +56,10 @@ class Zoomer(object):
         datasource = tuple(dbConfig['datasource'].values())
         uri.setConnection(*connection)
         uri.setDataSource(*datasource)
-        vlayer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
+        layer = self.iface.addVectorLayer(uri.uri(False), "layer name you like", "postgres")
         # return
-        formConfig = vlayer.editFormConfig()
-        fields = vlayer.fields()
+        formConfig = layer.editFormConfig()
+        fields = layer.fields()
         fieldNames = fields.names()
         obj = obj_dict()
         lang_obj = obj['languages']
@@ -68,25 +68,25 @@ class Zoomer(object):
             field_obj = obj.get(fieldName, None)
             if field_obj is not None:
                 # 设置 field 别名
-                vlayer.setFieldAlias(i, field_obj.get('display', None))
+                layer.setFieldAlias(i, field_obj.get('display', None))
                 field_type = field_obj.get('type')
                 if field_type == 'Integer':
-                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
+                    layer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Range", {}))
                     if fieldName == 'fid':
                         formConfig.setReadOnly(i, True)
                         # 设置默认值仅对新建要素时有效
-                        vlayer.setDefaultValueDefinition(i, QgsDefaultValue('-1', False))
+                        layer.setDefaultValueDefinition(i, QgsDefaultValue('-1', False))
                     else:
-                        vlayer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
+                        layer.setDefaultValueDefinition(i, QgsDefaultValue('0', True))
                 elif field_type == 'Enumeration':
-                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
+                    layer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("Enumeration", {}))
                 else:
-                    vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+                    layer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
             elif fieldName in list(lang_obj.keys()):
-                vlayer.setFieldAlias(i, lang_obj[fieldName].get('name', None))
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+                layer.setFieldAlias(i, lang_obj[fieldName].get('name', None))
+                layer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
             else:
-                vlayer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
+                layer.setEditorWidgetSetup(i, QgsEditorWidgetSetup("TextEdit", {}))
 
         formConfig.setUiForm('./attributeform/Attribute_Form.ui')
         # 设置 python 脚本使用方式
@@ -94,4 +94,4 @@ class Zoomer(object):
         formConfig.setInitFilePath(os.path.join(os.path.dirname(__file__), 'attributeform/attribute_form.py'))
         # 设置脚本入口函数
         formConfig.setInitFunction("formOpen")
-        vlayer.setEditFormConfig(formConfig)
+        layer.setEditFormConfig(formConfig)
