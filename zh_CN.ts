@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<!DOCTYPE TS><TS version="2.0" language="zh_CN" sourcelanguage="">
 <context>
     <name>Zoomer</name>
     <message>
@@ -12,7 +11,7 @@
 <context>
     <name>attr_form</name>
     <message>
-        <location filename="attributeform/attribute_form.py" line="236"/>
+        <location filename="attributeform/attribute_form.py" line="239"/>
         <source>Title</source>
         <translation>标题</translation>
     </message>

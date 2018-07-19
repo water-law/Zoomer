@@ -163,6 +163,7 @@ class MyWidget(QWidget):
                 child = self.findChild(QLineEdit, fieldName)
                 value = child.text()
                 QMessageBox.information(self, fieldName, value)
+        myForm.save()
 
     def tipDialog(self):
         dialog = AddLanguageDialog(self)
@@ -208,8 +209,8 @@ def formOpen(dialog, layer, feature):
         # 非属性表单模式, 属性表单模式的dialog.parent() 没有 layout
         # TODO: 区分 QgsAttributeForm 的各种模式
         childs = baseDialog.findChildren(QLayout)
-        # ly = myForm.layout()
-        # QMessageBox.information(None, ly.objectName(), str(type(ly)))
+        ly = myForm.layout()
+        QMessageBox.information(dialog, ly.objectName(), str(type(ly)))
         # for child in childs:
         #     QMessageBox.information(dialog, child.objectName(), str(type(child)))
         myDialog = dialog.findChild(QDialog, "Dialog")

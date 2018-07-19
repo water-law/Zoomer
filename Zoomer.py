@@ -19,37 +19,46 @@ email                : onoma@in.gr
 # Import the PyQt and QGIS libraries
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QAction, QMessageBox
+from PyQt5.QtCore import QFileInfo
 from qgis.core import *
 # Initialize Qt resources from file resources.py
 # Import the code for the dialog
+# Use the resources.qrc file to set plugin's icon
+from .resources import *
 from .model.tools import *
 
 
-class Zoomer(object):
+class Zoomer:
 
     def __init__(self, iface):
         # Save reference to the QGIS interface
         self.iface = iface
+        self.user_plugin_dir = QFileInfo(
+            QgsApplication.qgisUserDatabaseFilePath()).path() + '/python/plugins'
+        QMessageBox.information(None, "path", self.user_plugin_dir)
+        self.plugin_builder_path = os.path.dirname(__file__)
 
     def initGui(self):
         # Create action that will start plugin configuration
-        self.action = QAction(QIcon("icon.png"), "Menu Item", self.iface.mainWindow())
+        self.action = QAction(
+            QIcon(":/plugins/Zoomer/icon.png"),
+            "Zoomer", self.iface.mainWindow())
         # connect the action to the run method
-        self.action.setObjectName("test Action")
-        self.action.setWhatsThis("Configuration for test plugin")
         self.action.triggered.connect(self.run)
 
         # Add toolbar button and menu item
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu("&Menu Item", self.action)
+        self.iface.addPluginToMenu("&Zoomer", self.action)
 
     def unload(self):
         # Remove the plugin menu item and icon
-        self.iface.removePluginMenu("&Menu Item", self.action)
+        self.iface.removePluginMenu("&Zoomer", self.action)
         self.iface.removeToolBarIcon(self.action)
 
     # run method that performs all the real work
     def run(self):
+        import os
+        QMessageBox.information(None, "dir", os.path.abspath(__file__))
         uri = QgsDataSourceUri()
         dbConfig = db_config()
         connection = tuple(dbConfig['connection'].values())

@@ -1,4 +1,5 @@
 .git
+.svn
 .idea
 *.pyc
 __pycache__/*

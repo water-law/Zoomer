@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
-import re
 import platform
+import re
 import shutil
 import subprocess
+import sys
+
+
+from qgis.core import QgsApplication
 
 PLUGIN_NAME = os.getcwd().split("\\")[-1]
 BASE_DIR = os.getcwd()
@@ -11,10 +15,13 @@ QGIS_PLUGIN_DIR = "C:/Users/zjp/AppData/Roaming/QGIS/QGIS3/profiles/default/pyth
 TARGET_PLUGIN_DIR = QGIS_PLUGIN_DIR + PLUGIN_NAME
 QGIS_EXEC_PATH = "C:/Program Files/QGIS 3.0/bin/qgis-bin.exe"
 source = b''
+userDir = QgsApplication.qgisUserDatabaseFilePath()
+print(userDir.encode("gbk").decode())
 
 excludes = [
     ".idea",
     ".git",
+    ".gitignore",
     ".svn",
     "*.pyc",
     "issues",
@@ -23,7 +30,10 @@ excludes = [
     "README.md",
     "Makefile",
     "sync",
-    "trans.bat",
+    "resources.qrc",
+    "static.bat",
+    "ts.bat",
+    "*.ts",
     "LICENSE"
 ]
 
@@ -50,13 +60,16 @@ if os.path.exists(TARGET_PLUGIN_DIR):
 
 shutil.copytree(os.getcwd(), "{}".format(TARGET_PLUGIN_DIR), False, shutil.ignore_patterns(*excludes))
 
-qgs = subprocess.Popen(['taskkill', '/F', '/IM', 'qgis-bin.exe'], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-out, err = qgs.communicate()
-if err is not None:
-    encoding = 'utf-8'
-    sysstr = platform.system()
-    if sysstr == "Windows":
-        encoding = 'gbk'
-    print(err.decode(encoding))
-p = subprocess.Popen(QGIS_EXEC_PATH, stdin=subprocess.PIPE, stdout=None)
-p.communicate(input=source)
+
+sys.exit(1)
+
+# qgs = subprocess.Popen(['taskkill', '/F', '/IM', 'qgis-bin.exe'], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+# out, err = qgs.communicate()
+# if err is not None:
+#     encoding = 'utf-8'
+#     sysstr = platform.system()
+#     if sysstr == "Windows":
+#         encoding = 'gbk'
+#     print(err.decode(encoding))
+# p = subprocess.Popen(QGIS_EXEC_PATH, stdin=subprocess.PIPE, stdout=None)
+# p.communicate(input=source)

@@ -42,6 +42,4 @@ def classFactory(iface):
     from .Zoomer import Zoomer
     translator = QTranslator()
     translator.load("zh_CN")
-    app = QApplication.instance()
-    app.installTranslator(translator)
     return Zoomer(iface)
