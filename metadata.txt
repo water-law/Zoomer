@@ -15,14 +15,14 @@ qgisMaximumVersion=3.99
 
 changelog=3.0.3 2018-02-23: Redesign of UI to allow better editing prior to generation.
 
-homepage=https://192.168.1.253/svn/QGIS/Zoomer
-tracker=https://192.168.1.253/svn/QGIS/Zoomer/issues
-repository=https://192.168.1.253/svn/QGIS/Zoomer
+homepage=http://g-sherman.github.io/Qgis-Plugin-Builder
+tracker=https://github.com/g-sherman/Qgis-Plugin-Builder/issues
+repository=https://github.com/g-sherman/Qgis-Plugin-Builder
 tags=development
 icon=icon.png
 
 experimental=False
 deprecated=False
 
-author=Water Law
-email=jianping.zhang@xinuo.com
+author=GeoApt LLC
+email=gsherman@geoapt.com

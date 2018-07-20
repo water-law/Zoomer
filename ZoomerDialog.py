@@ -15,17 +15,13 @@ email                : onoma@in.gr
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- This script initializes the plugin, making it known to QGIS.
 """
-def name(): 
-  return "Zoom plugin" 
-def description():
-  return "Zooms to a point when the user hits the button."
-def version(): 
-  return "Version 0.1" 
-def qgisMinimumVersion():
-  return "1.0"
-def classFactory(iface): 
-  # load Zoomer class from file Zoomer
-  from .Zoomer import Zoomer
-  return Zoomer(iface)
+from PyQt5 import QtCore, QtWidgets
+from .Ui_Zoomer import Ui_Zoomer
+# create the dialog for Zoomer
+class ZoomerDialog(QtWidgets.QDialog):
+  def __init__(self):
+    QtWidgets.QDialog.__init__(self)
+    # Set up the user interface from Designer. 
+    self.ui = Ui_Zoomer()
+    self.ui.setupUi(self)

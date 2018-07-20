@@ -1,50 +1,30 @@
-# 项目说明
-本项目为开发 QGIS 地名标注插件。release 下有 python 插件基础模板， 需要者请自行下载。
+# 环境：
 
-# 安装方法
-将整个 Zoomer 目录拷贝到
+QGIS 3.0 + Qt5 + Pycharm
 
-C:/Users/[用户名]/AppData/Roaming/QGIS/QGIS3/profiles/default/python/plugins/ 下，
-如果不行的话看看用户目录下是否有.qgis的目录，进入该目录应能找到插件安装目录。除此之
-外， 你可能需要根据model/sql.md 的文件创建相应的 pgsql 数据库（使用 pgsql shell）。
+# 设置：
 
-# 开发环境
-### 1. 系统环境变量配置
+ Pycharm IDE -> File -> settings -> Project Interpreter -> add Local -> System Interpreter 添加 python 环境
 
-PYTHONHOME:
+C:\Program Files\QGIS 3.0\bin\python3.exe。
 
-C:\Program Files\QGIS 3.0\apps\Python36
+# 模板：
 
----------------------------------------------
-PYTHONPATH:
+从 http://www.dimitrisk.gr/qgis/creator/ 这个网站下载 PyQGIS 插件模板， 虽然是 PyQt4 的， 但改造成 PyQt5
 
-C:\Program Files\QGIS 3.0\apps\Python36\Lib
+不是问题，具体参考项目中的相关文件(注意：python 模块使用相对路径导入的尽量使用相对路径， 否则 QGIS 会报错)。
 
-C:\Program Files\QGIS 3.0\apps\qgis\python
+# 编译 ui 文件和 qrc  文件为 python 文件
 
-C:\Program Files\QGIS 3.0\apps\Python36\Scripts
+ 网上的教程大多是 PyQt4 的， 我这里是一个 static.bat 脚本，写的不是很好，看来要补下 bat 文件怎么写。。。
 
------------------------------------------------
-PATH:
+# 插件安装：
 
-C:\Program Files\QGIS 3.0\bin
+找到 QGIS 的插件目录， 找不到的话有个方法， 先在 QGIS 安装一个 plugin builder 3 的插件， 然后全盘搜 pluginbuilder3(没有空格！！！),
 
-C:\Program Files\QGIS 3.0\apps\qgis\bin
+举个例子， 我 QGIS 安装目录为： C:\Program Files\QGIS 3.0， 但是插件目录却在这里
 
-C:\Program Files\QGIS 3.0\apps\Python36\Scripts
+C:\Users\zjp\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins， 可以看到该目录下有一个名为 pluginbuilder3
 
-C:\Qt\Qt5.10.0\5.10.0\msvc2015_64\bin
+的目录，这个就是 pluginbuilder3 插件， 将我们的 Zoomer 文件夹拷贝到 pluginbuilder3 同一级的目录即可。
 
-C:\Qt\Qt5.10.0\Tools\QtCreator\bin
-### 2. IDE 配置
-pycharm2017.3.8(使用社区版本即可)，File->Open->选择Zoomer文件夹，加载项目后，
-
-File->Settings->Project Interpreter-> Add Local -> C:\Program Files\QGIS 3.0\bin\python3.exe。
-
-Edit Configurations-> + -> Python -> Script Path 选择 Zoomer 文件夹下的 sync 文件。
-
-# 项目文件简略说明
-
-sync: 将 Zoomer 文件夹同步到插件目录下的 python 脚本
-
-trans.bat: 将 Zoomer 目录下的资源文件转为 python 文件
