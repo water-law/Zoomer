@@ -28,3 +28,9 @@ C:\Users\zjp\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins， 可�
 
 的目录，这个就是 pluginbuilder3 插件， 将我们的 Zoomer 文件夹拷贝到 pluginbuilder3 同一级的目录即可。
 
+# 单独使用 python 虚拟环境
+
+使用 python3 内置库 python3 -m venv <dir_name>
+
+ Pycharm IDE -> File -> settings -> Project Interpreter -> add Local -> System Interpreter 添加 python 环境
+
