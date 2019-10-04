@@ -34,3 +34,6 @@ C:\Users\zjp\AppData\Roaming\QGIS\QGIS3\profiles\default\python\plugins， 可�
 
  Pycharm IDE -> File -> settings -> Project Interpreter -> add Local -> System Interpreter 添加 python 环境
 
+### 附加 c++ 版本的插件
+
+解压 plugin_code_examples.zip 压缩包，用 vs2017 打开
